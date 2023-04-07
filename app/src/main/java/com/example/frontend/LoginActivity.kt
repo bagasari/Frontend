@@ -24,5 +24,6 @@ class LoginActivity : AppCompatActivity() {
         btnSignUp.setOnClickListener {
             Log.d(tag, "회원가입 버튼 클릭")
         }
+
     }
 }
