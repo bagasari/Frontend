@@ -7,7 +7,7 @@
     tools:context=".LoginActivity">
 
     <EditText
-        android:id="@+id/activity_login_edEmail"
+        android:id="@+id/activity_login_etEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/activity_login_edPassword"
+        android:id="@+id/activity_login_etPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -30,10 +30,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_login_edEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_login_etEmail" />
 
     <Button
-        android:id="@+id/activity_login_btnSignIn"
+        android:id="@+id/activity_login_btnLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
@@ -41,7 +41,7 @@
         android:layout_marginTop="24dp"
         android:text="Sign In"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_login_edPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_login_etPassword" />
 
     <Button
         android:id="@+id/activity_login_btnSignUp"
@@ -52,6 +52,6 @@
         android:layout_marginRight="100dp"
         android:text="Sign Up"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_login_edPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_login_etPassword" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
