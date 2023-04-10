@@ -20,6 +20,9 @@ android {
         // Jetpack Compose
         // Enables Jetpack Compose for this module
         compose true
+
+        // viewBinding
+        viewBinding true
     }
 
     buildTypes {
