@@ -11,4 +11,5 @@ interface UserService {
         @Query("email") email: String,
         @Query("password") password: String,
     ): Call<User>
+
 }

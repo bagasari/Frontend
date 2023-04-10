@@ -21,8 +21,6 @@ class SignUpActivity : AppCompatActivity() {
             val name = etName.text.toString()
             val password = etPassword.text.toString()
             val passwordRe = etPasswordRe.text.toString()
-
-
         }
     }
 }
