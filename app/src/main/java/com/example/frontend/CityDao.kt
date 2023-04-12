@@ -24,4 +24,10 @@ interface CityDao {
     // 인자로 받은 도시명에 해당하는 도시 행 조회
     @Query("SELECT * FROM city_table WHERE city_name LIKE :city_name")
     suspend fun getCityByName(city_name : String): City
+
+    // 도시 전체 삭제 쿼가
+    @Query("DELETE FROM city_table")
+    suspend fun deleteAll()
+
+
 }

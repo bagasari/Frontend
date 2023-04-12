@@ -8,5 +8,6 @@ import androidx.room.PrimaryKey
 data class Country(
     @PrimaryKey(autoGenerate = true) val country_id : Long?,
     @ColumnInfo(name = "country_name") val country_name : String?,
+    @ColumnInfo(name = "country_name_eng") val country_name_eng : String?,
     @ColumnInfo(name = "country_img") val country_img : Int?
 )

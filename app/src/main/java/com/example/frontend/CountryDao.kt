@@ -26,4 +26,12 @@ interface CountryDao {
     @Query("SELECT country_id FROM country_table WHERE country_name LIKE :country_name")
     suspend fun getCountryId(country_name: String): Long
 
+    // 국가 전체 삭제 쿼리
+    @Query("DELETE FROM country_table")
+    suspend fun deleteAll()
+
+    // 국가 이미지 정보 변환 쿼리
+    @Query("UPDATE country_table SET country_img = :country_img")
+    suspend fun updateCountryImg(country_img: Int)
+
 }
