@@ -3,10 +3,8 @@ package com.example.frontend.auth
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-import com.example.frontend.*
+import com.example.frontend.HomeActivity
 import com.example.frontend.databinding.ActivityLoginBinding
 import com.example.frontend.retrofit.RetrofitClient
 import kotlinx.coroutines.CoroutineScope

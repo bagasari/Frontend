@@ -1,11 +1,7 @@
 package com.example.frontend.auth
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import com.example.frontend.R
-import com.example.frontend.databinding.ActivityLoginBinding
+import androidx.appcompat.app.AppCompatActivity
 import com.example.frontend.databinding.ActivitySignUpBinding
 
 class SignUpActivity : AppCompatActivity() {
