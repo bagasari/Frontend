@@ -28,6 +28,7 @@ class LoginActivity : AppCompatActivity() {
         binding.btnLogin.setOnClickListener{
             Log.d(TAG, "로그인 버튼 클릭")
 
+            // 임시 : "email":"sac@naver.com", "password":"sac_pwd"
             val email = binding.etEmail.text.toString()
             val pw = binding.etPassword.text.toString()
             val intent = Intent(this, HomeActivity::class.java)
@@ -37,7 +38,7 @@ class LoginActivity : AppCompatActivity() {
             scope.launch {
                 try {
                     // 로그인 요청
-                    val response = retrofit.create(UserService::class.java).getSignIn(email,pw)
+                    val response = retrofit.create(UserService::class.java).postSignIn(email,pw)
                     if (response.isSuccessful) {
                         val loginResponse = response.body()
                         Log.d(TAG, "로그인 성공 $loginResponse")
@@ -49,6 +50,8 @@ class LoginActivity : AppCompatActivity() {
                     Log.d(TAG, "API 호출 실패")
                 }
             }
+
+            startActivity(intent) // 삭제 예정
         }
 
         // 회원가입 버튼. SignUp 화면으로 이동
