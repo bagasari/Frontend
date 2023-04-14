@@ -6,12 +6,18 @@
         <entry key="app/src/main/res/drawable/ic_account_book.xml" value="0.277" />
         <entry key="app/src/main/res/drawable/ic_home.xml" value="0.277" />
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.277" />
+        <entry key="app/src/main/res/layout/account_book_list_item.xml" value="0.1276595744680851" />
+        <entry key="app/src/main/res/layout/activity_destination_list.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/destination_search_item.xml" value="0.2171875" />
+        <entry key="app/src/main/res/layout/destination_select_item.xml" value="0.35778985507246375" />
+        <entry key="app/src/main/res/layout/destnaion_select_item.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/frag_account_book.xml" value="0.1" />
         <entry key="app/src/main/res/layout/frag_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/frag_search.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_account_book_list.xml" value="0.1276595744680851" />
         <entry key="app/src/main/res/layout/menu.xml" value="0.1" />
         <entry key="app/src/main/res/menu/bottom_menu.xml" value="0.3333333333333333" />
       </map>
