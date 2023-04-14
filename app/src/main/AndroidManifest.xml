@@ -22,8 +22,12 @@
             android:name=".HomeActivity"
             android:exported="false" />
         <activity
+            android:name="SelectDestinationActivity"
+            android:exported="false"/>
+        <activity
             android:name=".auth.LoginActivity"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
