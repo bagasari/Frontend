@@ -1,6 +1,5 @@
 package com.example.frontend
 
-import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -11,17 +10,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-class HomeActivity : AppCompatActivity() {
+open class HomeActivity : AppCompatActivity() {
     private var mBinding: ActivityHomeBinding? = null
     private val binding get() = mBinding!!
 
     // [YHJ 4/11] : fragment 필드
     private val homeFragment by lazy {HomeFragment()}
     private val searchFragment by lazy {SearchFragment()}
-    private val myAccountBookListFragment by lazy {MyAccountBookListFragment()}
+    private val myAccountBookListFragment by lazy {AccountBookListFragment()}
 
     // [YHJ 4/11] : DB 필드
     private var db: AppDatabase? = null
+    private lateinit var cityList: List<City>
+    private lateinit var countryList: List<Country>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,14 +68,14 @@ class HomeActivity : AppCompatActivity() {
     }
 
     // [YHJ 4/11] : 국가/도시 DB 초기 세팅 메서드
-    private fun settingDB(){
+     private fun settingDB(){
         db = AppDatabase.getInstance(this)
         CoroutineScope(Dispatchers.Main).launch {
             async(Dispatchers.IO){
 //                db!!.cityDao().deleteAll()
 //               db!!.countryDao().deleteAll()
-                var countryList : List<Country> = db!!.countryDao().getAllCountries()
-                var cityList : List<City> = db!!.cityDao().getAllCities()
+                countryList = db!!.countryDao().getAllCountries()
+                cityList = db!!.cityDao().getAllCities()
 
                 for(country in countryList){
                     Log.v("test", "update : " + country.country_name + ", drawable : " + resources.getIdentifier(country.country_name_eng, "drawable", packageName))
@@ -91,6 +92,14 @@ class HomeActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    fun getCityList() : List<City>{
+        return cityList
+    }
+
+    fun getCountryList() : List<Country>{
+        return countryList
     }
 
 

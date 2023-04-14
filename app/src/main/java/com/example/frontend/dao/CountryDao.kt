@@ -1,6 +1,7 @@
-package com.example.frontend
+package com.example.frontend.dao
 
 import androidx.room.*
+import com.example.frontend.Country
 
 @Dao
 interface CountryDao {
