@@ -50,7 +50,6 @@ class LoginActivity : AppCompatActivity() {
                     Log.d(TAG, "API 호출 실패")
                 }
             }
-            startActivity(intent)
         }
 
         // 회원가입 버튼. SignUp 화면으로 이동
