@@ -1,15 +1,14 @@
-package com.example.frontend
+package com.example.frontend.auth
 
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface UserService {
     @GET("/v1/signIn")
-    fun getSignIn(
+    suspend fun getSignIn(
         @Query("email") email: String,
         @Query("password") password: String,
-    ): Call<User>
+    ): Response<User>
 
 }
