@@ -15,7 +15,7 @@ object RetrofitClient {
     // gson 객체 - JSON 데이터를 파싱하도록 함
     private val gson = GsonBuilder().setLenient().create()
     // API 의 기본 URL
-    private const val BASE_URL = "https://f2105458-6bac-43b5-8489-ab34f08dacf1.mock.pstmn.io"
+    private const val BASE_URL = "http://43.201.221.222:8080"
     // 타임아웃 시간을 설정 (ms 기준)
     private const val CONNECT_TIMEOUT_SEC = 20000L
 
