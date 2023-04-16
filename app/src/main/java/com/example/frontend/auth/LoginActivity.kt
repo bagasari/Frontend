@@ -7,15 +7,14 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.frontend.HomeActivity
 import com.example.frontend.databinding.ActivityLoginBinding
 import com.example.frontend.retrofit.RetrofitClient
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import com.example.frontend.utils.Utils
+import kotlinx.coroutines.*
+import org.json.JSONObject
 
 
 /** 로그인 화면. (이메일,비밀번호)를 입력받고 확인하여 진행 **/
 class LoginActivity : AppCompatActivity() {
-    private val TAG:String = "LoginActivity"
+    private val TAG: String = "LoginActivity"
     private lateinit var binding: ActivityLoginBinding
     private val retrofit = RetrofitClient.getInstance()
 
@@ -25,7 +24,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Login 버튼. 입력 정보 확인 후 Home 화면으로 이동
-        binding.btnLogin.setOnClickListener{
+        binding.btnLogin.setOnClickListener {
             Log.d(TAG, "로그인 버튼 클릭")
 
             // 임시 : "email":"sac@naver.com", "password":"sac_pwd"
@@ -33,21 +32,31 @@ class LoginActivity : AppCompatActivity() {
             val pw = binding.etPassword.text.toString()
             val intent = Intent(this, HomeActivity::class.java)
 
+            // TODO(): 이메일 형식과 비밀번호 형식을 확인하는 기능 필요
+
             // I/O 작업을 비동기적으로 처리하기 위한 코루틴 스코프를 생성
-            val scope = CoroutineScope(Job()+Dispatchers.IO)
+            val scope = CoroutineScope(Job() + Dispatchers.IO)
             scope.launch {
                 try {
                     // 로그인 요청
-                    val response = retrofit.create(UserService::class.java).postSignIn(email,pw)
+                    val response = retrofit.create(UserService::class.java).postSignIn(SignInRequest(email,pw))
                     if (response.isSuccessful) {
-                        val loginResponse = response.body()
-                        Log.d(TAG, "로그인 성공 $loginResponse")
+                        val token = response.body()
+                        Log.d(TAG, "로그인 성공 $token")
                         startActivity(intent)
                     } else {
-                        Log.d(TAG, "로그인 실패 ${response.body()}")
+                        val errorBody = JSONObject(response.errorBody()?.string() ?: "")
+                        val errorCode = errorBody.optString("code")
+                        Log.d(TAG, "로그인 실패 $errorBody")
+                        withContext(Dispatchers.Main){
+                            when (errorCode) {
+                                "A002" -> Utils.showToast(this@LoginActivity,"존재하지 않는 이메일")
+                                "A003" -> Utils.showToast(this@LoginActivity,"잘못된 비밀번호")
+                            }
+                        }
                     }
                 } catch (e: Exception) {
-                    Log.d(TAG, "API 호출 실패")
+                    Log.d(TAG, "API 호출 실패 $e")
                 }
             }
         }

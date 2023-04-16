@@ -1,23 +1,19 @@
 package com.example.frontend.auth
 
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface UserService {
-    @POST("/v1/signIn")
+    @POST("/v1/auth/signIn")
     suspend fun postSignIn(
-        @Query("email") email: String,
-        @Query("password") password: String,
-    ): Response<User>
+        @Body request: SignInRequest
+    ): Response<SignInResponse>
 
-    @POST("/v1/signUp")
+    @POST("/v1/auth/signUp")
     suspend fun postSignUp(
-        @Query("email") email: String,
-        @Query("password") password: String,
-        @Query("username") username: String,
-        @Query("role") role: String,
-    ): Response<Int>
-
+        @Body request: SignUpRequest
+    ): Response<String>
 }
