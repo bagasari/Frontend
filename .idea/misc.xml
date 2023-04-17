@@ -8,6 +8,7 @@
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.277" />
         <entry key="app/src/main/res/layout/account_book_list_item.xml" value="0.1276595744680851" />
         <entry key="app/src/main/res/layout/activity_destination_list.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/activity_destination_select_list.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />

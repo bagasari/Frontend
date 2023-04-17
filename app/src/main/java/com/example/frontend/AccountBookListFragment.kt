@@ -30,7 +30,6 @@ class AccountBookListFragment : Fragment(R.layout.frag_account_book) {
         binding.rvMyAccountBookListF.layoutManager = LinearLayoutManager(context)
         binding.rvMyAccountBookListF.adapter = accountBookAdapter
 
-        // 회원가입 버튼. SignUp 화면으로 이동
         binding.btnCreateAccountBook.setOnClickListener {
 
             val intent = Intent(context, SelectDestinationActivity::class.java)

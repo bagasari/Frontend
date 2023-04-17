@@ -30,7 +30,12 @@ class LoginActivity : AppCompatActivity() {
             // 임시 : "email":"sac@naver.com", "password":"sac_pwd"
             val email = binding.etEmail.text.toString()
             val pw = binding.etPassword.text.toString()
+
             val intent = Intent(this, HomeActivity::class.java)
+            // [YHJ 4/17] DB 에러 - 회원가입 실패하여 임시 수정
+            startActivity(intent)
+
+
 
             // TODO(): 이메일 형식과 비밀번호 형식을 확인하는 기능 필요
 
