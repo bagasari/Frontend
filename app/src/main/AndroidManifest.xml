@@ -26,6 +26,12 @@
             android:name=".SelectDestinationActivity"
             android:exported="false" />
         <activity
+            android:name=".ExpenditureActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".ProductSearchActivity"
+            android:exported="false"/>
+        <activity
             android:name=".auth.LoginActivity"
             android:exported="true">
             <intent-filter>

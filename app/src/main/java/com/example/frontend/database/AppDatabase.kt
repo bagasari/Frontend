@@ -1,10 +1,12 @@
-package com.example.frontend
+package com.example.frontend.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.example.frontend.City
+import com.example.frontend.Country
 import com.example.frontend.dao.CityDao
 import com.example.frontend.dao.CountryAndCitiesDao
 import com.example.frontend.dao.CountryDao

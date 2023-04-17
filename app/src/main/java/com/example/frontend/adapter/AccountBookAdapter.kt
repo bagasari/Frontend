@@ -1,5 +1,6 @@
-package com.example.frontend
+package com.example.frontend.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,6 +8,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.frontend.ExpenditureActivity
+import com.example.frontend.ProductSearchActivity
+import com.example.frontend.R
 import com.example.frontend.dto.AccountBook
 import java.text.SimpleDateFormat
 import kotlin.collections.ArrayList
@@ -17,7 +21,7 @@ class AccountBookAdapter(val accountBookList: ArrayList<AccountBook>) : Recycler
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): AccountBookAdapter.CustomViewHolder {
+    ): CustomViewHolder {
         // R.layout.account_book을 리스트에 붙여줌
         val view = LayoutInflater.from(parent.context).inflate(R.layout.account_book_list_item, parent, false) // context - 액티비티에서 담고 있는 모든 것
         return CustomViewHolder(view).apply {
@@ -28,13 +32,16 @@ class AccountBookAdapter(val accountBookList: ArrayList<AccountBook>) : Recycler
 
                 //Intent 이동 하여 해당 가계부의 지출 내역 보여주기
                 Toast.makeText(parent.context, "여행이름 : ${accountBook.name}", Toast.LENGTH_LONG).show()
+                val intent = Intent(parent.context, ExpenditureActivity::class.java)
+                intent.putExtra("ACCOUNT_BOOK_NAME", accountBook.name)
+                parent.context.startActivity(intent)
             }
 
         }
     }
 
     // onCreateViewHolder로 만들어준 뷰를 바인딩시켜주는 메서드
-    override fun onBindViewHolder(holder: AccountBookAdapter.CustomViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
         val dateFormat : SimpleDateFormat = SimpleDateFormat("yy-MM-dd")
 
         holder.img.setImageResource(accountBookList.get(position).img)

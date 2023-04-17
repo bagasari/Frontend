@@ -9,9 +9,11 @@
         <entry key="app/src/main/res/layout/account_book_list_item.xml" value="0.1276595744680851" />
         <entry key="app/src/main/res/layout/activity_destination_list.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_destination_select_list.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_expeniture.xml" value="0.19067028985507245" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_product.xml" value="0.19067028985507245" />
         <entry key="app/src/main/res/layout/destination_search_item.xml" value="0.2171875" />
         <entry key="app/src/main/res/layout/destination_select_item.xml" value="0.35778985507246375" />
         <entry key="app/src/main/res/layout/destnaion_select_item.xml" value="0.4036458333333333" />

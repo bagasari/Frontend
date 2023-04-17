@@ -8,9 +8,8 @@ import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.example.frontend.adapter.DestAdapter
 import com.example.frontend.databinding.ActivityDestinationSelectListBinding
-import com.example.frontend.databinding.ActivityHomeBinding
 import com.example.frontend.dto.Destination
 
 class SearchFragment : Fragment() {
@@ -19,6 +18,7 @@ class SearchFragment : Fragment() {
     private lateinit var searchView: SearchView
     private var destList = ArrayList<Destination>()
     private lateinit var destAdapter: DestAdapter
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         // setContentView() 한 것임
@@ -32,10 +32,12 @@ class SearchFragment : Fragment() {
         binding = activityDestinationSelectListBinding
         searchView = binding.svDestination
 
+        destAdapter = DestAdapter(destList, R.layout.destination_search_item, requireContext())
         addToList()
-        destAdapter = DestAdapter(destList, R.layout.destination_search_item)
         binding.rvDestination.layoutManager = LinearLayoutManager(context)
         binding.rvDestination.adapter = destAdapter
+
+
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {

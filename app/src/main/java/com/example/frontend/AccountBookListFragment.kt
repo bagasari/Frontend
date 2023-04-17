@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.frontend.adapter.AccountBookAdapter
 import com.example.frontend.databinding.FragAccountBookBinding
 import com.example.frontend.dto.AccountBook
 import java.util.*

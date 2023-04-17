@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.frontend.adapter.DestAdapter
 import com.example.frontend.dto.Destination
 
 class SelectDestinationActivity : AppCompatActivity() {
@@ -20,7 +21,6 @@ class SelectDestinationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_destination_select_list)
 
-
         searchView = findViewById(R.id.sv_destination)
         recyclerView = findViewById(R.id.rv_destination)
 
@@ -29,7 +29,7 @@ class SelectDestinationActivity : AppCompatActivity() {
 
 
         addToList()
-        adapter = DestAdapter(destList, R.layout.destination_select_item)
+        adapter = DestAdapter(destList, R.layout.destination_select_item, this)
         recyclerView.adapter = adapter
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
