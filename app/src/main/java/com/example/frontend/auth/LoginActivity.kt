@@ -33,7 +33,7 @@ class LoginActivity : AppCompatActivity() {
 
             val intent = Intent(this, HomeActivity::class.java)
             // [YHJ 4/17] DB 에러 - 회원가입 실패하여 임시 수정
-            startActivity(intent)
+            // startActivity(intent)
 
 
 
