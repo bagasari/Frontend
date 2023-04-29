@@ -29,7 +29,7 @@ class LoginActivity : AppCompatActivity() {
 
             // 임시 : "email":"sac@naver.com", "password":"sac_pwd"
             val email = binding.etEmail.text.toString()
-            val pw = binding.etPassword.text.toString()
+            val password = binding.etPassword.text.toString()
 
             val intent = Intent(this, HomeActivity::class.java)
             // [YHJ 4/17] DB 에러 - 회원가입 실패하여 임시 수정
@@ -44,7 +44,7 @@ class LoginActivity : AppCompatActivity() {
             scope.launch {
                 try {
                     // 로그인 요청
-                    val response = retrofit.create(UserService::class.java).postSignIn(SignInRequest(email,pw))
+                    val response = retrofit.create(UserService::class.java).postSignIn(User(email = email,password = password))
                     if (response.isSuccessful) {
                         val token = response.body()
                         Log.d(TAG, "로그인 성공 $token")

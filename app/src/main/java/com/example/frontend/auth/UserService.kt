@@ -9,11 +9,11 @@ import retrofit2.http.Query
 interface UserService {
     @POST("/v1/auth/signIn")
     suspend fun postSignIn(
-        @Body request: SignInRequest
-    ): Response<SignInResponse>
+        @Body request: User
+    ): Response<String>
 
     @POST("/v1/auth/signUp")
     suspend fun postSignUp(
-        @Body request: SignUpRequest
+        @Body request: User
     ): Response<String>
 }

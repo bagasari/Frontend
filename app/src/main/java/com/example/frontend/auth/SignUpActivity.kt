@@ -81,7 +81,7 @@ class SignUpActivity : AppCompatActivity() {
                 scope.launch {
                     try {
                         // 회원가입 요청
-                        val response = retrofit.create(UserService::class.java).postSignUp(SignUpRequest(email,password,name))
+                        val response = retrofit.create(UserService::class.java).postSignUp(User(email = email,password = password,name = name))
                         if (response.isSuccessful) {
                             val signUpResponse = response.body()
                             Log.d(TAG, "회원가입 성공 $signUpResponse")
