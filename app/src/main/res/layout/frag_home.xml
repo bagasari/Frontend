@@ -1,17 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_home"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textSize="25sp"
+        android:text="Home"/>
+
+    <ImageButton
+        android:id="@+id/ib_search"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        app:srcCompat="@drawable/home_search" />
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textSize="25sp"
+        android:text="00님의 가계부 + 가계부 리스트"/>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="홈 화면"
+        android:orientation="horizontal">
+
+<!--        <androidx.cardview.widget.CardView-->
+<!--            android:layout_width="100dp"-->
+<!--            android:layout_height="100dp"-->
+<!--            xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--            android:layout_margin="10dp"-->
+<!--            app:cardCornerRadius="5dp"-->
+<!--            app:cardElevation="6dp"/>-->
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_my_account_book_ht"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textSize="25sp"
+        android:text="현재 작성중인 가계부"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_writing_account_book"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintTop_toTopOf="parent"/>
+
+
+</LinearLayout>

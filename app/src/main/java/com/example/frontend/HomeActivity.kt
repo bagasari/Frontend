@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
+import com.example.frontend.*
 import com.example.frontend.database.AppDatabase
 import com.example.frontend.databinding.ActivityHomeBinding
 import kotlinx.coroutines.CoroutineScope
@@ -11,14 +12,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
+// 홈 Activity- Bottom Navigation + Home Fragment
 open class HomeActivity : AppCompatActivity() {
     private var mBinding: ActivityHomeBinding? = null
     private val binding get() = mBinding!!
 
     // [YHJ 4/11] : fragment 필드
-    private val homeFragment by lazy {HomeFragment()}
-    private val searchFragment by lazy {SearchFragment()}
-    private val myAccountBookListFragment by lazy {AccountBookListFragment()}
+    private val homeFragment by lazy { HomeFragment() }
+    private val searchFragment by lazy { SearchFragment() }
+    private val myAccountBookListFragment by lazy { AccountBookListFragment() }
 
     // [YHJ 4/11] : DB 필드
     private var db: AppDatabase? = null
@@ -64,7 +66,16 @@ open class HomeActivity : AppCompatActivity() {
                 }
                 true
             }
-            selectedItemId = R.id.item_home
+            // homeActivity로 넘어온 경우 초기 시작 화면 세팅
+            val frag_num : String = intent.getStringExtra("FRAG_NUM")!!
+            if(frag_num.equals("accountBook")){
+                selectedItemId = R.id.item_account_book
+            }else if(frag_num.equals("home")){
+                selectedItemId = R.id.item_home
+            }else{
+                selectedItemId = R.id.item_search
+            }
+
         }
     }
 

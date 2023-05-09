@@ -5,16 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<TextView
-android:id="@+id/textView"
-android:layout_width="match_parent"
-android:layout_height="50dp"
-android:textSize="25sp"
-android:text="지출 내역 목록"
-app:layout_constraintBottom_toBottomOf="parent"
-app:layout_constraintEnd_toEndOf="parent"
-app:layout_constraintStart_toStartOf="parent"
-app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+    android:id="@+id/textView"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:textSize="25sp"
+    android:text="지출 내역 목록"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_expenditure"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_margin="16dp"
+        android:layout_marginBottom="60dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/textView"
+        tools:listitem="@layout/expenditure_item" />
 
 
 </LinearLayout>

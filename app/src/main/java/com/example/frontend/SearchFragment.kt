@@ -9,12 +9,14 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.frontend.adapter.DestAdapter
+import com.example.frontend.databinding.ActivityDestinationSearchListBinding
 import com.example.frontend.databinding.ActivityDestinationSelectListBinding
 import com.example.frontend.dto.Destination
 
+// 검색 fragment
 class SearchFragment : Fragment() {
 
-    private lateinit var binding: ActivityDestinationSelectListBinding
+    private lateinit var binding: ActivityDestinationSearchListBinding
     private lateinit var searchView: SearchView
     private var destList = ArrayList<Destination>()
     private lateinit var destAdapter: DestAdapter
@@ -22,14 +24,14 @@ class SearchFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         // setContentView() 한 것임
-        val view = inflater.inflate(R.layout.activity_destination_select_list, container, false)
+        val view = inflater.inflate(R.layout.activity_destination_search_list, container, false)
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val activityDestinationSelectListBinding = ActivityDestinationSelectListBinding.bind(view)
-        binding = activityDestinationSelectListBinding
+        val activityDestinationSearchListBinding = ActivityDestinationSearchListBinding.bind(view)
+        binding = activityDestinationSearchListBinding
         searchView = binding.svDestination
 
         destAdapter = DestAdapter(destList, R.layout.destination_search_item, requireContext())

@@ -21,21 +21,16 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_destination"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="587dp"
         android:layout_margin="16dp"
         android:layout_marginBottom="60dp"
         app:layout_constraintBottom_toBottomOf="@+id/sv_destination"
         app:layout_constraintEnd_toEndOf="@id/btn_make_account_book"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/destination_select_item" />
+        tools:listitem="@layout/destination_search_item" />
 
-    <Button
-        android:id="@+id/btn_make_account_book"
-        android:layout_width="match_parent"
-        android:layout_height="43dp"
-        android:text="가계부 생성하기"
-        android:layout_margin="20dp"/>
+
 
 
 </LinearLayout>
