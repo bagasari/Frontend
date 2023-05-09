@@ -31,9 +31,11 @@ class LoginActivity : AppCompatActivity() {
             val email = binding.etEmail.text.toString()
             val password = binding.etPassword.text.toString()
 
-            val intent = Intent(this, HomeActivity::class.java)
-            // [YHJ 4/17] DB 에러 - 회원가입 실패하여 임시 수정
-            // startActivity(intent)
+            val intent = Intent(this, HomeActivity::class.java).apply {
+                putExtra("FRAG_NUM", "home")
+            }
+//            // [YHJ 4/17] 로그인 임시 수정
+//            startActivity(intent)
 
 
 

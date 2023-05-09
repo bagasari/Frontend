@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.Nullable
 import androidx.recyclerview.widget.RecyclerView
 import com.example.frontend.ProductSearchActivity
 import com.example.frontend.R
@@ -27,7 +28,6 @@ class DestAdapter (var destList: List<Destination>, var setItem: Int, var contex
         public fun setBtn(setBtn: Int){
             btn = itemView.findViewById<Button>(R.id.btn_choose)
         }
-
     }
 
     fun setFilteredList(destList: List<Destination>){
@@ -69,14 +69,15 @@ class DestAdapter (var destList: List<Destination>, var setItem: Int, var contex
         holder.img.setImageResource(destList[position].img)
         holder.name.text = destList[position].name
 
-
         if(setItem == R.layout.destination_select_item){
+            var chosen_dest_list : ArrayList<Destination> = arrayListOf()
             holder.setBtn(R.id.btn_choose)
             holder.btn.setOnClickListener(object : View.OnClickListener{
                 override fun onClick(p0: View?) {
 
                     Log.v("test", "여행지 이름" + destList[holder.adapterPosition].name)
 
+                    chosen_dest_list.add(Destination(destList[holder.adapterPosition].name, destList[holder.adapterPosition].img))
                 }
             })
         }
@@ -86,5 +87,7 @@ class DestAdapter (var destList: List<Destination>, var setItem: Int, var contex
     override fun getItemCount(): Int {
         return destList.size
     }
+
+
 
 }
