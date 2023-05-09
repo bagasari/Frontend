@@ -2,12 +2,15 @@ package com.example.frontend.auth
 
 import android.os.Bundle
 import android.util.Log
-import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
 import com.example.frontend.databinding.ActivitySignUpBinding
 import com.example.frontend.retrofit.RetrofitClient
 import com.example.frontend.utils.Utils
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.json.JSONObject
 
 class SignUpActivity : AppCompatActivity() {

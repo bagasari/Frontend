@@ -8,7 +8,12 @@ import com.example.frontend.HomeActivity
 import com.example.frontend.databinding.ActivityLoginBinding
 import com.example.frontend.retrofit.RetrofitClient
 import com.example.frontend.utils.Utils
-import kotlinx.coroutines.*
+import com.google.gson.JsonParser
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.json.JSONObject
 
 
@@ -27,7 +32,6 @@ class LoginActivity : AppCompatActivity() {
         binding.btnLogin.setOnClickListener {
             Log.d(TAG, "로그인 버튼 클릭")
 
-            // 임시 : "email":"sac@naver.com", "password":"sac_pwd"
             val email = binding.etEmail.text.toString()
             val password = binding.etPassword.text.toString()
 
@@ -36,8 +40,6 @@ class LoginActivity : AppCompatActivity() {
             }
 //            // [YHJ 4/17] 로그인 임시 수정
 //            startActivity(intent)
-
-
 
             // TODO(): 이메일 형식과 비밀번호 형식을 확인하는 기능 필요
 
@@ -48,9 +50,13 @@ class LoginActivity : AppCompatActivity() {
                     // 로그인 요청
                     val response = retrofit.create(UserService::class.java).postSignIn(User(email = email,password = password))
                     if (response.isSuccessful) {
-                        val token = response.body()
-                        Log.d(TAG, "로그인 성공 $token")
+                        Log.d(TAG, "로그인 성공 ${response.body()}")
+                        val json = response.body()
+                        val jsonObject = JsonParser.parseString(json).asJsonObject
+                        val token = jsonObject.get("token").asString
+                        RetrofitClient.setAccessToken(token)
                         startActivity(intent)
+
                     } else {
                         val errorBody = JSONObject(response.errorBody()?.string() ?: "")
                         val errorCode = errorBody.optString("code")
