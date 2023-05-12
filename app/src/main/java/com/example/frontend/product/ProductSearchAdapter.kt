@@ -4,8 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.frontend.R
+import com.example.frontend.dto.Destination
 
-class ProductAdapter(private val productList: ArrayList<TestProduct>) : RecyclerView.Adapter<ProductViewHolder>() {
+class ProductSearchAdapter (private var productList: ArrayList<TestProduct>) : RecyclerView.Adapter<ProductViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_product, parent, false)
@@ -23,4 +24,8 @@ class ProductAdapter(private val productList: ArrayList<TestProduct>) : Recycler
 
     override fun getItemCount(): Int = productList.size
 
+    fun setProductList(productList: ArrayList<TestProduct>){
+        this.productList = productList
+        notifyDataSetChanged()
+    }
 }
