@@ -1,22 +1,20 @@
-package com.example.frontend
+package com.example.frontend.product
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.frontend.auth.ProductAdapter
-import com.example.frontend.auth.TestProduct
-import com.example.frontend.databinding.ActivityProductSearchBinding
+import com.example.frontend.databinding.ActivityProductBinding
 
 // 상품 검색 액티비티
-class ProductSearchActivity: AppCompatActivity() {
-    private val TAG: String = "ProductSearchActivity"
-    private lateinit var binding: ActivityProductSearchBinding
+class ProductActivity: AppCompatActivity() {
+    private lateinit var binding: ActivityProductBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityProductSearchBinding.inflate(layoutInflater)
+        binding = ActivityProductBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        var productList = ArrayList<TestProduct>()
+        val productList = ArrayList<TestProduct>()
         productList.add(TestProduct(name = "1", price = "10"))
         productList.add(TestProduct(name = "2", price = "10"))
         productList.add(TestProduct(name = "3", price = "10"))
@@ -27,9 +25,19 @@ class ProductSearchActivity: AppCompatActivity() {
         productList.add(TestProduct(name = "8", price = "10"))
         productList.add(TestProduct(name = "9", price = "10"))
 
-        binding.productSearchRv.apply {
-            layoutManager = LinearLayoutManager(this@ProductSearchActivity)
+        binding.productRv.apply {
+            layoutManager = LinearLayoutManager(this@ProductActivity)
             adapter = ProductAdapter(productList)
+        }
+
+        binding.productBtnMap.setOnClickListener {
+            val intent = Intent(this, ProductMapActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.productBtnSearchProduct.setOnClickListener {
+            val intent = Intent(this, ProductSearchActivity::class.java)
+            startActivity(intent)
         }
     }
 }

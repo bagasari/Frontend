@@ -2,87 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="12dp">
-
-    <LinearLayout
-        android:id="@+id/product_search_ll_none1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <Button
-            android:id="@+id/product_search_btn_search_city"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableRight="@drawable/ic_arrow_down"
-            android:text="나라/도시"
-            android:textColor="#FF000000"/>
-
-        <Button
-            android:id="@+id/product_search_product"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:text="날짜를 선택해 주세요."
-            android:textColor="#FF000000"
-            android:drawableLeft="@drawable/ic_search"
-            style="?attr/materialButtonOutlinedStyle" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/product_search_ll_none2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/product_search_ll_none1">
-
-        <Button
-            android:id="@+id/product_search_btn_date"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="날짜를 선택해 주세요."
-            android:textColor="#FF000000"
-            android:drawableLeft="@drawable/ic_calender"/>
-
-        <ImageButton
-            android:id="@+id/product_search_btn_filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:background="@color/white"
-            app:srcCompat="@drawable/ic_filter" />
-
-        <ImageButton
-            android:id="@+id/product_search_btn_map"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:background="@color/white"
-            app:srcCompat="@drawable/ic_map"/>
-    </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/product_search_rv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/product_search_ll_none2"
-        app:layout_constraintVertical_bias="0"/>
+    tools:context=".product.ProductSearchActivity">
 
 </androidx.constraintlayout.widget.ConstraintLayout>

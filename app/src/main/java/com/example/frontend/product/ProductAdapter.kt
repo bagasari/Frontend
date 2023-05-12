@@ -1,4 +1,4 @@
-package com.example.frontend.auth
+package com.example.frontend.product
 
 import android.view.LayoutInflater
 import android.view.View
