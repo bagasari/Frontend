@@ -2,9 +2,16 @@ package com.example.frontend.product
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.widget.ImageButton
+import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.frontend.R
 import com.example.frontend.databinding.ActivityProductBinding
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.datepicker.MaterialDatePicker
 import java.util.*
 
@@ -53,6 +60,29 @@ class ProductActivity: AppCompatActivity() {
                    binding.productBtnDate.text = date
                }
         }
+
+        // 버튼 초기화 및 클릭 이벤트 설정
+        binding.productBtnFilter.setOnClickListener{showPopupMenu()}
+
+    }
+
+    private fun showPopupMenu() {
+        val popupMenu = PopupMenu(this, binding.productBtnFilter)
+        popupMenu.menuInflater.inflate(R.menu.menu_product_sort, popupMenu.menu)
+        popupMenu.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.action_sort_latest -> {
+                    // 최신순을 선택한 경우 처리
+                    true
+                }
+                R.id.action_sort_recommended -> {
+                    // 추천순을 선택한 경우 처리
+                    true
+                }
+                else -> false
+            }
+        }
+        popupMenu.show()
     }
 
     private fun showDateRangePickerDialog(onDateRangeSet: (String, String) -> Unit) {
