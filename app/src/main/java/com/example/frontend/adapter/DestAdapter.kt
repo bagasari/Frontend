@@ -10,9 +10,8 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.Nullable
 import androidx.recyclerview.widget.RecyclerView
-import com.example.frontend.ProductSearchActivity
+import com.example.frontend.product.ProductActivity
 import com.example.frontend.R
 import com.example.frontend.dto.Destination
 
@@ -48,7 +47,7 @@ class DestAdapter (var destList: List<Destination>, var setItem: Int, var contex
 
                     //Intent 이동 하여 해당 가계부의 지출 내역 보여주기
                     Toast.makeText(parent.context, "여행이름 : ${destList.name}", Toast.LENGTH_LONG).show()
-                    val intent = Intent(context, ProductSearchActivity::class.java)
+                    val intent = Intent(context, ProductActivity::class.java)
                     intent.putExtra("DEST_NAME", destList.name)
                     context.startActivity(intent)
 

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Frontend</string>
+    <string name="google_map_api_key">AIzaSyAbv54axZ_67L8FFdHOFNIpVaBrk74YHPY</string>
 </resources>

@@ -4,6 +4,8 @@
     package="com.example.frontend">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -17,6 +19,12 @@
         android:theme="@style/Theme.Frontend"
         tools:targetApi="31">
         <activity
+            android:name=".product.ProductMapActivity"
+            android:exported="false" />
+        <activity
+            android:name=".product.ProductSearchActivity"
+            android:exported="false" />
+        <activity
             android:name=".auth.SignUpActivity"
             android:exported="false" />
         <activity
@@ -27,13 +35,13 @@
             android:exported="false" />
         <activity
             android:name=".ExpenditureActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
-            android:name=".ProductSearchActivity"
-            android:exported="false"/>
+            android:name=".product.ProductActivity"
+            android:exported="false" />
         <activity
             android:name=".CreateAccountBook"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".auth.LoginActivity"
             android:exported="true">
@@ -43,6 +51,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_map_api_key" />
     </application>
 
 </manifest>
