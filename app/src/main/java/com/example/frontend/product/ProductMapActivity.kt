@@ -16,7 +16,7 @@ class ProductMapActivity : AppCompatActivity(), OnMapReadyCallback {
         setContentView(binding.root)
 
         binding.productMapMv.onCreate(savedInstanceState)
-        binding.productMapMv.getMapAsync(this)
+        binding.productMapMv.getMapAsync(this@ProductMapActivity)
     }
 
 

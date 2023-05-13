@@ -35,7 +35,7 @@ class LoginActivity : AppCompatActivity() {
             val email = binding.etEmail.text.toString()
             val password = binding.etPassword.text.toString()
 
-            val intent = Intent(this, HomeActivity::class.java).apply {
+            val intent = Intent(this@LoginActivity, HomeActivity::class.java).apply {
                 putExtra("FRAG_NUM", "home")
             }
 //            // [YHJ 4/17] 로그인 임시 수정
@@ -78,7 +78,7 @@ class LoginActivity : AppCompatActivity() {
         binding.btnSignUp.setOnClickListener {
             Log.d(TAG, "회원가입 버튼 클릭")
 
-            val intent = Intent(this, SignUpActivity::class.java)
+            val intent = Intent(this@LoginActivity, SignUpActivity::class.java)
             startActivity(intent)
         }
     }

@@ -2,18 +2,13 @@ package com.example.frontend.product
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.widget.ImageButton
 import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.frontend.R
 import com.example.frontend.databinding.ActivityProductBinding
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.datepicker.MaterialDatePicker
-import java.util.*
+import java.util.Calendar
 
 // 상품 검색 액티비티
 class ProductActivity: AppCompatActivity() {
@@ -43,13 +38,13 @@ class ProductActivity: AppCompatActivity() {
 
         // 지도
         binding.productBtnMap.setOnClickListener {
-            val intent = Intent(this, ProductMapActivity::class.java)
+            val intent = Intent(this@ProductActivity, ProductMapActivity::class.java)
             startActivity(intent)
         }
 
         // 품목 검색
         binding.productBtnSearchProduct.setOnClickListener {
-            val intent = Intent(this, ProductSearchActivity::class.java)
+            val intent = Intent(this@ProductActivity, ProductSearchActivity::class.java)
             startActivity(intent)
         }
 
@@ -67,7 +62,7 @@ class ProductActivity: AppCompatActivity() {
     }
 
     private fun showPopupMenu() {
-        val popupMenu = PopupMenu(this, binding.productBtnFilter)
+        val popupMenu = PopupMenu(this@ProductActivity, binding.productBtnFilter)
         popupMenu.menuInflater.inflate(R.menu.menu_product_sort, popupMenu.menu)
         popupMenu.setOnMenuItemClickListener { item ->
             when (item.itemId) {
