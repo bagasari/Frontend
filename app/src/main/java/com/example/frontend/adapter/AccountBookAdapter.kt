@@ -17,10 +17,7 @@ import kotlin.collections.ArrayList
 class AccountBookAdapter(val accountBookList: ArrayList<AccountBook>) : RecyclerView.Adapter<AccountBookAdapter.CustomViewHolder>(){
 
     // ViewHolder가 생성될 때
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): CustomViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
         // R.layout.account_book을 리스트에 붙여줌
         val view = LayoutInflater.from(parent.context).inflate(R.layout.account_book_list_item, parent, false) // context - 액티비티에서 담고 있는 모든 것
         return CustomViewHolder(view).apply {

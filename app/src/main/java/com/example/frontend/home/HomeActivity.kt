@@ -1,4 +1,4 @@
-package com.example.frontend
+package com.example.frontend.home
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

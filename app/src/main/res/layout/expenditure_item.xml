@@ -9,10 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -20,53 +20,37 @@
             android:id="@+id/iv_category"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/ic_home" />
 
-        <TextView
-            android:id="@+id/tv_product_category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="카테고리"
-            app:layout_constraintEnd_toEndOf="@+id/iv_category"
-            app:layout_constraintStart_toStartOf="@+id/iv_category"
-            app:layout_constraintTop_toBottomOf="@+id/iv_category" />
 
         <TextView
-            android:id="@+id/tv_product_what"
+            android:id="@+id/tv_product_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="구매 품목"
-            app:layout_constraintBottom_toTopOf="@+id/tv_product_when"
-            app:layout_constraintEnd_toStartOf="@+id/tv_product_cost"
-            app:layout_constraintStart_toEndOf="@+id/iv_category"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_product_when"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="구매 날짜"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/tv_product_amount"
-            app:layout_constraintStart_toEndOf="@+id/iv_category" />
+            app:layout_constraintEnd_toStartOf="@+id/tv_product_price"
+            app:layout_constraintHorizontal_bias="0.111"
+            app:layout_constraintStart_toEndOf="@+id/iv_category"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.268" />
 
         <TextView
-            android:id="@+id/tv_product_cost"
+            android:id="@+id/tv_product_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="구매 가격"
-            app:layout_constraintBottom_toTopOf="@+id/tv_product_amount"
+            app:layout_constraintBottom_toTopOf="@+id/tv_product_city"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_product_amount"
+            android:id="@+id/tv_product_city"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="구매 수량"
+            android:text="구매 도시"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 

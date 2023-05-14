@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.example.frontend.HomeActivity
+import com.example.frontend.home.HomeActivity
 import com.example.frontend.databinding.ActivityLoginBinding
 import com.example.frontend.retrofit.RetrofitClient
 import com.example.frontend.utils.Utils
@@ -39,7 +39,7 @@ class LoginActivity : AppCompatActivity() {
                 putExtra("FRAG_NUM", "home")
             }
 //            // [YHJ 4/17] 로그인 임시 수정
-//            startActivity(intent)
+            startActivity(intent)
 
             // TODO(): 이메일 형식과 비밀번호 형식을 확인하는 기능 필요
 
