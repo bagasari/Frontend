@@ -1,18 +1,12 @@
 package com.example.frontend.home
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.frontend.ExpenditureActivity
 import com.example.frontend.R
 import com.example.frontend.accountBook.ProductsByDate
-import com.example.frontend.adapter.ExpenditureAdapter
-import com.example.frontend.databinding.FragHomeBinding
 
 class HorizontalDateAdapter(var dateList: ArrayList<ProductsByDate>) : RecyclerView.Adapter<HorizontalDateAdapter.MyViewHolder>(){
 

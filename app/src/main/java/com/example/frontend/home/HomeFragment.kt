@@ -66,9 +66,12 @@ class HomeFragment : Fragment(R.layout.frag_home) {
             ))
         )
 
+        // 현재 작성중인 가계부 지출 내역 날짜 리사이클러뷰
         val horizontalDateAdapter = HorizontalDateAdapter(dateList)
         binding.rvTravelDate.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.rvTravelDate.adapter = horizontalDateAdapter
+
+        // 날짜 리사이클러뷰 요소 선택 시 - 해당 날짜에 대한 지출 내역 리사이클러뷰로 교체
         horizontalDateAdapter.setItemClickListener(object: HorizontalDateAdapter.OnItemClickListener{
             override fun onClick(v:View, position: Int){
                 Log.d("date", position.toString())
@@ -77,6 +80,8 @@ class HomeFragment : Fragment(R.layout.frag_home) {
                 binding.rvWritingAccountBook.adapter = expenditureAdaptor
             }
         })
+
+        // 날짜 리사이클러뷰 요소 선택 시 - 해당 날짜에 대한 지출 내역 리사이클러뷰로 교체
         val expenditureAdaptor = ExpenditureAdapter(dateList.get(0).products)
         binding.rvWritingAccountBook.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.rvWritingAccountBook.adapter = expenditureAdaptor

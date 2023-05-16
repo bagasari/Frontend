@@ -34,7 +34,7 @@
             android:name=".SelectDestinationActivity"
             android:exported="false" />
         <activity
-            android:name=".ExpenditureActivity"
+            android:name=".Expenditure.ExpenditureActivity"
             android:exported="false" />
         <activity
             android:name=".product.ProductActivity"

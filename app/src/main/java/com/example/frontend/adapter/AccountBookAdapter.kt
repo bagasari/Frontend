@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.example.frontend.ExpenditureActivity
+import com.example.frontend.Expenditure.ExpenditureActivity
 import com.example.frontend.R
 import com.example.frontend.dto.AccountBook
 import java.text.SimpleDateFormat

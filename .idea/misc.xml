@@ -12,19 +12,21 @@
         <entry key="app/src/main/res/layout/activity_destination_search.xml" value="0.21195652173913043" />
         <entry key="app/src/main/res/layout/activity_destination_search_list.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_destination_select_list.xml" value="0.284027099609375" />
-        <entry key="app/src/main/res/layout/activity_expenditure.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_expenditure.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_expeniture.xml" value="0.19067028985507245" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_make_account_book.xml" value="0.20761245674740483" />
         <entry key="app/src/main/res/layout/activity_product.xml" value="0.19067028985507245" />
+        <entry key="app/src/main/res/layout/activity_product_map.xml" value="0.30364583333333334" />
+        <entry key="app/src/main/res/layout/activity_product_search.xml" value="0.30364583333333334" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.1" />
         <entry key="app/src/main/res/layout/date_horizontal.xml" value="0.3302083333333333" />
         <entry key="app/src/main/res/layout/destination_search_item.xml" value="0.2171875" />
         <entry key="app/src/main/res/layout/destination_select_item.xml" value="0.35778985507246375" />
         <entry key="app/src/main/res/layout/destnaion_select_item.xml" value="0.4036458333333333" />
-        <entry key="app/src/main/res/layout/expenditure_item.xml" value="0.33367513020833334" />
+        <entry key="app/src/main/res/layout/expenditure_item.xml" value="0.1" />
         <entry key="app/src/main/res/layout/frag_account_book.xml" value="0.1" />
         <entry key="app/src/main/res/layout/frag_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/frag_search.xml" value="0.1" />
