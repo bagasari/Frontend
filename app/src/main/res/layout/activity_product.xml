@@ -23,6 +23,7 @@
             android:layout_height="wrap_content"
             android:drawableRight="@drawable/ic_arrow_down"
             android:text="나라/도시"
+            android:textSize="12sp"
             android:textColor="#FF000000"/>
 
         <Button
@@ -32,6 +33,7 @@
             android:layout_marginLeft="12dp"
             android:text="찾으시는 물품을 검색하세요."
             android:textColor="#FF000000"
+            android:textSize="12sp"
             android:drawableLeft="@drawable/ic_search"
             style="?attr/materialButtonOutlinedStyle" />
     </LinearLayout>
@@ -54,6 +56,7 @@
             android:layout_weight="1"
             android:text="날짜를 선택해 주세요."
             android:textColor="#FF000000"
+            android:textSize="12sp"
             android:drawableLeft="@drawable/ic_calender"/>
 
         <ImageButton
@@ -61,7 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
-            android:background="@color/white"
+            android:background="@android:color/transparent"
             app:srcCompat="@drawable/ic_filter" />
 
         <ImageButton
@@ -70,8 +73,10 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
-            android:background="@color/white"
-            app:srcCompat="@drawable/ic_map"/>
+            android:background="@android:color/transparent"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            app:srcCompat="@drawable/ic_map" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
