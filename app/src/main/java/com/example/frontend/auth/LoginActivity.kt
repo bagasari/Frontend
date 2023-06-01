@@ -53,8 +53,11 @@ class LoginActivity : AppCompatActivity() {
                         Log.d(TAG, "로그인 성공 ${response.body()}")
                         val json = response.body()
                         val jsonObject = JsonParser.parseString(json).asJsonObject
-                        val token = jsonObject.get("token").asString
-                        RetrofitClient.setAccessToken(token)
+                        val accessToken = jsonObject.get("accessToken").asString
+                        val refreshToken = jsonObject.get("refreshToken").asString
+                        Log.d(TAG, "로그인 성공 $accessToken")
+                        Log.d(TAG, "로그인 성공 $refreshToken")
+                        RetrofitClient.setAccessToken(accessToken)
                         startActivity(intent)
 
                     } else {
