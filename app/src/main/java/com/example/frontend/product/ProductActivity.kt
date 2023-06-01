@@ -21,16 +21,16 @@ class ProductActivity: AppCompatActivity() {
         setContentView(binding.root)
 
         // dummy 삭제 예정
-        val productList = ArrayList<TestProduct>()
-        productList.add(TestProduct(name = "1", price = "10"))
-        productList.add(TestProduct(name = "2", price = "10"))
-        productList.add(TestProduct(name = "3", price = "10"))
-        productList.add(TestProduct(name = "4", price = "10"))
-        productList.add(TestProduct(name = "5", price = "10"))
-        productList.add(TestProduct(name = "6", price = "10"))
-        productList.add(TestProduct(name = "7", price = "10"))
-        productList.add(TestProduct(name = "8", price = "10"))
-        productList.add(TestProduct(name = "9", price = "10"))
+        val productList = ArrayList<Product>()
+        productList.add(Product(name = "1", price = "10"))
+        productList.add(Product(name = "2", price = "10"))
+        productList.add(Product(name = "3", price = "10"))
+        productList.add(Product(name = "4", price = "10"))
+        productList.add(Product(name = "5", price = "10"))
+        productList.add(Product(name = "6", price = "10"))
+        productList.add(Product(name = "7", price = "10"))
+        productList.add(Product(name = "8", price = "10"))
+        productList.add(Product(name = "9", price = "10"))
 
         // 품목 리스트
         binding.productRv.apply {

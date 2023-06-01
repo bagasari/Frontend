@@ -5,8 +5,8 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ProductService {
-    @GET("/search/product")
-    suspend fun getProductSearchResults(
-        @Query("keyword") keyword: String
-    ): Response<ArrayList<TestProduct>>
+    @GET("/v1/product/search/auto")
+    suspend fun getProductSearchAuto(
+        @Query("word") word: String
+    ): Response<ProductSearch>
 }
