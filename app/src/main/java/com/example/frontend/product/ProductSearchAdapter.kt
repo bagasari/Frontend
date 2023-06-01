@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.frontend.R
 
-class ProductSearchAdapter (private var productList: ProductSearch) : RecyclerView.Adapter<ProductSearchAdapter.ProductSearchViewHolder>() {
+class ProductSearchAdapter (private var productList: List<String>) : RecyclerView.Adapter<ProductSearchAdapter.ProductSearchViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductSearchViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_product_search, parent, false)
@@ -19,12 +19,12 @@ class ProductSearchAdapter (private var productList: ProductSearch) : RecyclerVi
         // 먹거리 extends 품목 - 개수, 무게, 위도, 경도
         // 교통 extends 품목 - 출발지 위도/경도, 도착지 위도/경도, 교통 수단 타입
 
-        holder.tvProductName.text = productList.name[position]
+        holder.tvProductName.text = productList[position]
     }
 
-    override fun getItemCount(): Int = productList.name.size
+    override fun getItemCount(): Int = productList.size
 
-    fun setProductList(productList: ProductSearch){
+    fun setProductList(productList:  List<String>){
         this.productList = productList
         notifyDataSetChanged()
     }

@@ -32,6 +32,11 @@ class ProductActivity: AppCompatActivity() {
         productList.add(Product(name = "8", price = "10"))
         productList.add(Product(name = "9", price = "10"))
 
+        // 검색한 나라/도시
+        val destination = intent.getStringExtra("DEST_NAME")
+        binding.productBtnSearchCity.text = destination
+        binding.productBtnSearchCity.setOnClickListener { finish() }
+
         // 품목 리스트
         binding.productRv.apply {
             layoutManager = LinearLayoutManager(this@ProductActivity)

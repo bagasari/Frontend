@@ -26,9 +26,7 @@ class ProductSearchActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // dummy 삭제 예정 - 원래는 비어 있어야 함
-        val productList = ProductSearch(emptyList())
-
-
+        val productList =  emptyList<String>()
 
         // 품목 리스트
         productSearchAdapter = ProductSearchAdapter(productList = productList)
@@ -75,10 +73,10 @@ class ProductSearchActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     Log.d(TAG, "검색어 자동완성 호출 성공 ${response.body()}")
 
-                    var newProductList = ProductSearch(emptyList())
+                    var newProductList: List<String> = emptyList()
 
-                    if(response.body() != null)
-                        newProductList = response.body()!!
+                    if(response.body()?.name != null)
+                       newProductList = response.body()?.name!!
 
                     withContext(Dispatchers.Main) {
                         productSearchAdapter.setProductList(newProductList)

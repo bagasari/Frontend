@@ -3,7 +3,7 @@
     android:id="@+id/product_ll_bottom_sheet"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/white"
+    android:background="?attr/colorOnPrimary"
     android:orientation="vertical"
     app:behavior_hideable="true"
     app:behavior_peekHeight="160dp"
