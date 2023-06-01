@@ -23,8 +23,9 @@
             android:layout_height="wrap_content"
             android:drawableRight="@drawable/ic_arrow_down"
             android:text="나라/도시"
-            android:textSize="12sp"
-            android:textColor="#FF000000"/>
+            android:textSize="16sp"
+            android:textColor="#FF000000"
+            android:fontFamily="@font/pretendard_semi_bold"/>
 
         <Button
             android:id="@+id/product_btn_search_product"
@@ -34,6 +35,7 @@
             android:text="찾으시는 물품을 검색하세요."
             android:textColor="#FF000000"
             android:textSize="12sp"
+            android:fontFamily="@font/pretendard_semi_bold"
             android:drawableLeft="@drawable/ic_search"
             style="?attr/materialButtonOutlinedStyle" />
     </LinearLayout>
@@ -57,6 +59,7 @@
             android:text="날짜를 선택해 주세요."
             android:textColor="#FF000000"
             android:textSize="12sp"
+            android:fontFamily="@font/pretendard_semi_bold"
             android:drawableLeft="@drawable/ic_calender"/>
 
         <ImageButton
