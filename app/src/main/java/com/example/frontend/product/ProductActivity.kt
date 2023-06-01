@@ -2,33 +2,40 @@ package com.example.frontend.product
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.frontend.R
 import com.example.frontend.databinding.ActivityProductBinding
+import com.example.frontend.databinding.FragProductBottomSheetBinding
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.datepicker.MaterialDatePicker
-import java.util.Calendar
+import java.util.*
 
 // 상품 검색 액티비티
 class ProductActivity: AppCompatActivity() {
     private lateinit var binding: ActivityProductBinding
+    private var isLatestSelected = true // 최신순, 추천순 선택
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProductBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // dummy 삭제 예정
-        val productList = ArrayList<TestProduct>()
-        productList.add(TestProduct(name = "1", price = "10"))
-        productList.add(TestProduct(name = "2", price = "10"))
-        productList.add(TestProduct(name = "3", price = "10"))
-        productList.add(TestProduct(name = "4", price = "10"))
-        productList.add(TestProduct(name = "5", price = "10"))
-        productList.add(TestProduct(name = "6", price = "10"))
-        productList.add(TestProduct(name = "7", price = "10"))
-        productList.add(TestProduct(name = "8", price = "10"))
-        productList.add(TestProduct(name = "9", price = "10"))
+        val productList = ArrayList<Product>()
+        productList.add(Product(name = "1", price = "10"))
+        productList.add(Product(name = "2", price = "10"))
+        productList.add(Product(name = "3", price = "10"))
+        productList.add(Product(name = "4", price = "10"))
+        productList.add(Product(name = "5", price = "10"))
+        productList.add(Product(name = "6", price = "10"))
+        productList.add(Product(name = "7", price = "10"))
+        productList.add(Product(name = "8", price = "10"))
+        productList.add(Product(name = "9", price = "10"))
+
+        // 검색한 나라/도시
+        val destination = intent.getStringExtra("DEST_NAME")
+        binding.productBtnSearchCity.text = destination
+        binding.productBtnSearchCity.setOnClickListener { finish() }
 
         // 품목 리스트
         binding.productRv.apply {
@@ -57,27 +64,32 @@ class ProductActivity: AppCompatActivity() {
         }
 
         // 버튼 초기화 및 클릭 이벤트 설정
-        binding.productBtnFilter.setOnClickListener{showPopupMenu()}
+        binding.productBtnFilter.setOnClickListener{showBottomSheetMenu()}
 
     }
 
-    private fun showPopupMenu() {
-        val popupMenu = PopupMenu(this@ProductActivity, binding.productBtnFilter)
-        popupMenu.menuInflater.inflate(R.menu.menu_product_sort, popupMenu.menu)
-        popupMenu.setOnMenuItemClickListener { item ->
-            when (item.itemId) {
-                R.id.action_sort_latest -> {
-                    // 최신순을 선택한 경우 처리
-                    true
-                }
-                R.id.action_sort_recommended -> {
-                    // 추천순을 선택한 경우 처리
-                    true
-                }
-                else -> false
-            }
+    private fun showBottomSheetMenu() {
+        val bottomSheetDialog = BottomSheetDialog(this@ProductActivity)
+        val bottomSheetBinding = FragProductBottomSheetBinding.inflate(layoutInflater, null, false)
+        bottomSheetDialog.setContentView(bottomSheetBinding.root)
+
+        // Bottom Sheet 내부의 View 이벤트 처리
+        bottomSheetBinding.productBtnLatest.isSelected = isLatestSelected
+        bottomSheetBinding.productBtnRecommend.isSelected = !isLatestSelected
+
+        bottomSheetBinding.productBtnLatest.setOnClickListener {
+            // 최신순을 선택한 경우 처리
+            isLatestSelected = !isLatestSelected
+            bottomSheetDialog.dismiss()
         }
-        popupMenu.show()
+
+        bottomSheetBinding.productBtnRecommend.setOnClickListener {
+            // 추천순을 선택한 경우 처리
+            isLatestSelected = !isLatestSelected
+            bottomSheetDialog.dismiss()
+        }
+
+        bottomSheetDialog.show()
     }
 
     private fun showDateRangePickerDialog(onDateRangeSet: (String, String) -> Unit) {

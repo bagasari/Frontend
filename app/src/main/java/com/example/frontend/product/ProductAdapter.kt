@@ -1,11 +1,13 @@
 package com.example.frontend.product
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.frontend.R
 
-class ProductAdapter(private val productList: ArrayList<TestProduct>) : RecyclerView.Adapter<ProductViewHolder>() {
+class ProductAdapter(private val productList: ArrayList<Product>) : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_product, parent, false)
@@ -23,4 +25,8 @@ class ProductAdapter(private val productList: ArrayList<TestProduct>) : Recycler
 
     override fun getItemCount(): Int = productList.size
 
+    class ProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+        val tvProductName: TextView = itemView.findViewById(R.id.product_tv_name)
+        val tvProductPrice: TextView = itemView.findViewById(R.id.product_tv_price)
+    }
 }

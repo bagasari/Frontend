@@ -30,13 +30,15 @@ object RetrofitClient {
         .connectTimeout(CONNECT_TIMEOUT_SEC, TimeUnit.SECONDS)
         .build()
 
-    // Retrofit 기본 설정 - baseUrl, client, convertor 설정
-    private val retrofit: Retrofit = Retrofit.Builder()
+    // Retrofit 초기 설정
+    private val retrofitBuilder: Retrofit.Builder = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .client(okHttpClient)
-        .addConverterFactory(ScalarsConverterFactory.create()) // 문자열 HTTP 응답 변환
-        .addConverterFactory(GsonConverterFactory.create(gson)) // Gson 객체를 사용해 Json HTTP 응답 변환
-        .build()
+        .addConverterFactory(ScalarsConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create(gson))
+
+    // Retrofit 객체
+    private var retrofit: Retrofit = retrofitBuilder.build()
 
     // Retrofit 객체 반환
     fun getInstance(): Retrofit = retrofit
@@ -50,7 +52,7 @@ object RetrofitClient {
             .build()
 
         // 수정된 okHttpClient Retrofit 에 적용
-        retrofit.newBuilder()
+        retrofit = retrofitBuilder
             .client(newOkHttpClient)
             .build()
     }

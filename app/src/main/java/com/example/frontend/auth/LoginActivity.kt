@@ -39,7 +39,7 @@ class LoginActivity : AppCompatActivity() {
                 putExtra("FRAG_NUM", "home")
             }
 //            // [YHJ 4/17] 로그인 임시 수정
-            startActivity(intent)
+//            startActivity(intent)
 
             // TODO(): 이메일 형식과 비밀번호 형식을 확인하는 기능 필요
 
@@ -53,8 +53,11 @@ class LoginActivity : AppCompatActivity() {
                         Log.d(TAG, "로그인 성공 ${response.body()}")
                         val json = response.body()
                         val jsonObject = JsonParser.parseString(json).asJsonObject
-                        val token = jsonObject.get("token").asString
-                        RetrofitClient.setAccessToken(token)
+                        val accessToken = jsonObject.get("accessToken").asString
+                        val refreshToken = jsonObject.get("refreshToken").asString
+                        Log.d(TAG, "로그인 성공 $accessToken")
+                        Log.d(TAG, "로그인 성공 $refreshToken")
+                        RetrofitClient.setAccessToken(accessToken)
                         startActivity(intent)
 
                     } else {
