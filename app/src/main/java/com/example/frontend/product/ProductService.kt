@@ -6,15 +6,15 @@ import retrofit2.http.Query
 
 interface ProductService {
     @GET("/v1/product/search")
-    suspend fun getProductSearch(
-        @Query("keyword") keyword: String,
+    suspend fun getProductList(
+        @Query("keyword") keyword: String?,
+        @Query("location") location: String,
         @Query("sort") sort: String,
-        @Query("size") size: Int,
-        @Query("lastId") lastId: Int
-    ): Response<Product>
+        @Query("lastId") lastId: Int?
+    ): Response<ProductListResponse>
 
     @GET("/v1/product/search/auto")
     suspend fun getProductSearchAuto(
         @Query("word") word: String
-    ): Response<ProductSearch>
+    ): Response<ProductSearchResponse>
 }

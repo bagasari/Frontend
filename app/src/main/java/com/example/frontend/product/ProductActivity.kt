@@ -2,45 +2,60 @@ package com.example.frontend.product
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.frontend.databinding.ActivityProductBinding
 import com.example.frontend.databinding.FragProductBottomSheetBinding
+import com.example.frontend.retrofit.RetrofitClient
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.datepicker.MaterialDatePicker
+import kotlinx.coroutines.*
 import java.util.*
 
 // 상품 검색 액티비티
 class ProductActivity: AppCompatActivity() {
+    private companion object{
+        private const val TAG = "ProductActivity"
+    }
     private lateinit var binding: ActivityProductBinding
+    private val retrofit = RetrofitClient.getInstance()
+
+
+    private var keyword: String? = null // 검색 키워드
+    private var destination: String = "" // 검색 도시/국가
+    private var sort = "id" // 정렬 방법 - 기본값 (최신순)
+
     private var isLatestSelected = true // 최신순, 추천순 선택
+    private var productList = mutableListOf<ProductListResponse.Product>()// 품목 리스트
+    private lateinit var productAdapter: ProductAdapter // 품목 리스트 리사이클러뷰 어뎁터
+    private var isLoading = false // 데이터 로딩 중 여부를 나타내는 변수
+    private var isLastPage = false // 모든 데이터를 로드했는지 여부를 나타내는 변수
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProductBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // dummy 삭제 예정
-        val productList = ArrayList<Product>()
-        productList.add(Product(name = "1", price = "10"))
-        productList.add(Product(name = "2", price = "10"))
-        productList.add(Product(name = "3", price = "10"))
-        productList.add(Product(name = "4", price = "10"))
-        productList.add(Product(name = "5", price = "10"))
-        productList.add(Product(name = "6", price = "10"))
-        productList.add(Product(name = "7", price = "10"))
-        productList.add(Product(name = "8", price = "10"))
-        productList.add(Product(name = "9", price = "10"))
-
         // 검색한 나라/도시
-        val destination = intent.getStringExtra("DEST_NAME")
+        destination = intent.getStringExtra("DEST_NAME").toString()
         binding.productBtnSearchCity.text = destination
         binding.productBtnSearchCity.setOnClickListener { finish() }
+        Log.d(TAG, "선택한 나라/도시 :$destination")
 
-        // 품목 리스트
+        // 더미데이터 테스트 - 삭제예정
+        destination = "일본"
+
+        // 검색한 품목 키워드
+        keyword = intent.getStringExtra("KEYWORD_NAME")
+        Log.d(TAG, "선택한 품목명 :$keyword")
+
+        // 품목 리스트 리사이클러뷰
+        productAdapter = ProductAdapter(productList)
         binding.productRv.apply {
             layoutManager = LinearLayoutManager(this@ProductActivity)
-            adapter = ProductAdapter(productList)
+            adapter = productAdapter
         }
 
         // 지도
@@ -52,7 +67,9 @@ class ProductActivity: AppCompatActivity() {
         // 품목 검색
         binding.productBtnSearchProduct.setOnClickListener {
             val intent = Intent(this@ProductActivity, ProductSearchActivity::class.java)
+            intent.putExtra("DEST_NAME",destination)
             startActivity(intent)
+            finish()
         }
 
         // 품목 날짜 선택
@@ -66,8 +83,101 @@ class ProductActivity: AppCompatActivity() {
         // 버튼 초기화 및 클릭 이벤트 설정
         binding.productBtnFilter.setOnClickListener{showBottomSheetMenu()}
 
+        // 품목 리스트 리사이클러뷰 초기값 설정
+        initProductList(keyword = keyword, location = destination, sort = sort)
+
+        // 품목 리스트 리사이클러뷰 스크롤 리스너 추가
+        binding.productRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                // 현재 리사이클러뷰의 레이아웃 매니저
+                val layoutManager = recyclerView.layoutManager
+
+                // 현재 화면에 보이는 아이템 개수
+                val visibleItemCount = layoutManager?.childCount ?: 0
+
+                // 전체적으로 등록된 아이템 개수
+                val totalItemCount = layoutManager?.itemCount ?: 0
+
+                // 현재 화면에 보이는 첫번째 아이템의 위치
+                val firstVisibleItemPosition = (layoutManager as? LinearLayoutManager)?.findFirstVisibleItemPosition() ?: 0
+
+                // 마지막 아이템이 현재 화면에 보이는지 여부 - 전체적으로 등록된 아이템이 다 보여졌는지 확인
+                val isLastItemVisible = (visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+
+                // 현재 로딩중이지 않고, 서버에서 모든 데이터를 로드하지 않았을때
+               val isNotLoadingAndNotLastPage = !isLoading && !isLastPage
+
+                if (isLastItemVisible && isNotLoadingAndNotLastPage) {
+                    // 끝에 도달했으므로 추가 데이터를 로드하는 작업을 수행합니다.
+                    loadProductList(keyword = keyword, location = destination, sort = sort, lastId = productList[productList.size-1].id)
+                }
+            }
+        })
+
     }
 
+    // TODO: keyword, location, sort, lastId 정상적인 값을 전달하게 변경 (전달받은 location으로 전달, 최신순, 추천순을 고른것에 따라 설정하게)
+    // TODO: 리사이클러뷰 끝에 도달할 경우 추가적인 값 로드해서 업데이트하기
+    // TODO: 리사이클러뷰 아이템 클릭하면 해당하는 값을 가지고 Map 쪽으로 넘어가게 만들기
+
+    // 품목 리스트의 초기값을 가져오는 메소드
+    private fun initProductList(keyword: String?, location: String, sort: String){
+        // I/O 작업을 비동기적으로 처리하기 위한 코루틴 스코프를 생성
+        val scope = CoroutineScope(Job() + Dispatchers.IO)
+        scope.launch {
+            try {
+                // 검색 keyword - null 가능
+                // location - not null
+                // 정렬 기준 초기값 - id (최신순)
+                // lastID 초기값 - 아직 품목을 가져오지 않은 상태 - lastId =  null
+                val response = retrofit.create(ProductService::class.java).getProductList(keyword = keyword, location = location, sort = sort, lastId = null)
+                if (response.isSuccessful) {
+                    Log.d(TAG, "품목 리스트 초기값 호출 성공 ${response.body()}")
+
+                    val initProductList = response.body()?.content.orEmpty()
+
+                    withContext(Dispatchers.Main) {
+                        productList.addAll(initProductList)
+                        productAdapter.notifyDataSetChanged()
+                    }
+                }
+            } catch (e: Exception) {
+                Log.d(TAG, "API 호출 실패 $e")
+            }
+        }
+    }
+
+    // 품목 리스트의 끝에 도달했을 때 추가적인 품목 리스트를 가져오는 메소드
+    private fun loadProductList(keyword: String?, location: String, sort: String, lastId: Int) {
+        isLoading = true // 데이터 로딩 중 상태로 설정
+
+        // 비동기 작업 시작
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                // 데이터를 가져오는 API 호출
+                val response = retrofit.create(ProductService::class.java).getProductList(keyword = keyword, location = location, sort = sort, lastId = lastId)
+
+                if (response.isSuccessful) {
+                    Log.d(TAG, "추가적인 품목 리스트 호출 성공 ${response.body()}")
+
+                    val newProductList = response.body()?.content.orEmpty()
+
+                    withContext(Dispatchers.Main) {
+                        productList.addAll(newProductList)
+                        productAdapter.notifyDataSetChanged()
+                        isLoading = false
+                        isLastPage = newProductList.isEmpty()
+                    }
+                }
+            } catch (e: Exception) {
+                Log.d(TAG, "API 호출 실패 $e")
+            }
+        }
+    }
+
+    // 최신순, 추천순을 고를 수 있는 BottomSheet를 보여주는 메소드
     private fun showBottomSheetMenu() {
         val bottomSheetDialog = BottomSheetDialog(this@ProductActivity)
         val bottomSheetBinding = FragProductBottomSheetBinding.inflate(layoutInflater, null, false)
@@ -80,18 +190,27 @@ class ProductActivity: AppCompatActivity() {
         bottomSheetBinding.productBtnLatest.setOnClickListener {
             // 최신순을 선택한 경우 처리
             isLatestSelected = !isLatestSelected
+            sort = "id"
+            productList = mutableListOf()
+            productAdapter.notifyDataSetChanged()
+            initProductList(keyword = keyword, location = destination, sort = sort)
             bottomSheetDialog.dismiss()
         }
 
         bottomSheetBinding.productBtnRecommend.setOnClickListener {
             // 추천순을 선택한 경우 처리
             isLatestSelected = !isLatestSelected
+            sort = "like"
+            productList = mutableListOf()
+            productAdapter.notifyDataSetChanged()
+            initProductList(keyword = keyword, location = destination, sort = sort)
             bottomSheetDialog.dismiss()
         }
 
         bottomSheetDialog.show()
     }
 
+    // 날짜를 선택하는 DatePickerDialog를 보여주는 메소드
     private fun showDateRangePickerDialog(onDateRangeSet: (String, String) -> Unit) {
 
         val datePickerDialog = MaterialDatePicker.Builder.dateRangePicker()
@@ -114,6 +233,7 @@ class ProductActivity: AppCompatActivity() {
         datePickerDialog.show(supportFragmentManager, "DateRangePickerDialog")
     }
 
+    // YYYY-MM-DD 로 날짜의 포맷을 변경하는 메소드
     private fun convertDateToString(date: Long): String {
         val calendar = Calendar.getInstance().apply {
             timeInMillis = date
