@@ -55,11 +55,13 @@
 
 
                 <TextView
-                    android:id="@+id/product_tv_detail"
+                    android:id="@+id/product_tv_like"
                     android:layout_width="140dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="상세 내용"
+                    android:drawableLeft="@drawable/ic_like"
+                    android:drawablePadding="4dp"
+                    android:text="추천수"
                     android:textSize="12sp"
                     android:fontFamily="@font/pretendard_medium"
                     android:ellipsize="end"

@@ -22,7 +22,6 @@ class ProductActivity: AppCompatActivity() {
     private lateinit var binding: ActivityProductBinding
     private val retrofit = RetrofitClient.getInstance()
 
-
     private var keyword: String? = null // 검색 키워드
     private var destination: String = "" // 검색 도시/국가
     private var sort = "id" // 정렬 방법 - 기본값 (최신순)
@@ -40,31 +39,44 @@ class ProductActivity: AppCompatActivity() {
 
         // 검색한 나라/도시
         destination = intent.getStringExtra("DEST_NAME").toString()
-        binding.productBtnSearchCity.text = destination
-        binding.productBtnSearchCity.setOnClickListener { finish() }
         Log.d(TAG, "선택한 나라/도시 :$destination")
-
-        // 더미데이터 테스트 - 삭제예정
-        destination = "일본"
 
         // 검색한 품목 키워드
         keyword = intent.getStringExtra("KEYWORD_NAME")
         Log.d(TAG, "선택한 품목명 :$keyword")
 
-        // 품목 리스트 리사이클러뷰
+        /** 더미데이터 테스트 - 삭제예정 **/
+        destination = "일본"
+
+        // 검색한 나라/도시 텍스트 설정
+        binding.productBtnSearchCity.text = destination
+
+        // 검색한 품목 키워드가 있을 경우 품목 검색창에 텍스트 설정
+        if(keyword != null)
+            binding.productBtnSearchProduct.text = keyword
+
+        // 품목 리스트 리사이클러뷰 어뎁터 생성
         productAdapter = ProductAdapter(productList)
+
+        // 품목 리스트 리사이클러뷰 어뎁터 및 레이아웃 매니저 설정
         binding.productRv.apply {
             layoutManager = LinearLayoutManager(this@ProductActivity)
             adapter = productAdapter
         }
 
-        // 지도
+        // 품목 리스트 리사이클러뷰 초기값 설정
+        initProductList(keyword = keyword, location = destination, sort = sort)
+
+        // 검색한 나라/도시 텍스트 설정 클릭 리스너 설정
+        binding.productBtnSearchCity.setOnClickListener { finish() }
+
+        // 지도 버튼 클릭 리스너 설정
         binding.productBtnMap.setOnClickListener {
             val intent = Intent(this@ProductActivity, ProductMapActivity::class.java)
             startActivity(intent)
         }
 
-        // 품목 검색
+        // 품목 검색창 클릭 리스너 설정
         binding.productBtnSearchProduct.setOnClickListener {
             val intent = Intent(this@ProductActivity, ProductSearchActivity::class.java)
             intent.putExtra("DEST_NAME",destination)
@@ -72,7 +84,7 @@ class ProductActivity: AppCompatActivity() {
             finish()
         }
 
-        // 품목 날짜 선택
+        // 품목 날짜 선택 클릭 리스너 설정
         binding.productBtnDate.setOnClickListener{
                showDateRangePickerDialog{ startDate, endDate ->
                    val date = "$startDate ~ $endDate"
@@ -80,13 +92,10 @@ class ProductActivity: AppCompatActivity() {
                }
         }
 
-        // 버튼 초기화 및 클릭 이벤트 설정
+        // 필터 버튼 클릭리스너 설정
         binding.productBtnFilter.setOnClickListener{showBottomSheetMenu()}
 
-        // 품목 리스트 리사이클러뷰 초기값 설정
-        initProductList(keyword = keyword, location = destination, sort = sort)
-
-        // 품목 리스트 리사이클러뷰 스크롤 리스너 추가
+        // 품목 리스트 리사이클러뷰 스크롤 리스너 설정
         binding.productRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -118,8 +127,6 @@ class ProductActivity: AppCompatActivity() {
 
     }
 
-    // TODO: keyword, location, sort, lastId 정상적인 값을 전달하게 변경 (전달받은 location으로 전달, 최신순, 추천순을 고른것에 따라 설정하게)
-    // TODO: 리사이클러뷰 끝에 도달할 경우 추가적인 값 로드해서 업데이트하기
     // TODO: 리사이클러뷰 아이템 클릭하면 해당하는 값을 가지고 Map 쪽으로 넘어가게 만들기
 
     // 품목 리스트의 초기값을 가져오는 메소드
@@ -183,16 +190,19 @@ class ProductActivity: AppCompatActivity() {
         val bottomSheetBinding = FragProductBottomSheetBinding.inflate(layoutInflater, null, false)
         bottomSheetDialog.setContentView(bottomSheetBinding.root)
 
-        // Bottom Sheet 내부의 View 이벤트 처리
+        // Bottom Sheet 내부의 View 이벤트 처리 - 선택했던 곳에 체크 표시
         bottomSheetBinding.productBtnLatest.isSelected = isLatestSelected
         bottomSheetBinding.productBtnRecommend.isSelected = !isLatestSelected
 
         bottomSheetBinding.productBtnLatest.setOnClickListener {
             // 최신순을 선택한 경우 처리
             isLatestSelected = !isLatestSelected
+            // 정렬 방법 - 최신순
             sort = "id"
+            // 품목 리스트 초기화
             productList = mutableListOf()
             productAdapter.notifyDataSetChanged()
+            // 품목 리스트의 초기값 불러옴
             initProductList(keyword = keyword, location = destination, sort = sort)
             bottomSheetDialog.dismiss()
         }
@@ -200,9 +210,12 @@ class ProductActivity: AppCompatActivity() {
         bottomSheetBinding.productBtnRecommend.setOnClickListener {
             // 추천순을 선택한 경우 처리
             isLatestSelected = !isLatestSelected
+            // 정렬 방법 - 추천순
             sort = "like"
+            // 품목 리스트 초기화
             productList = mutableListOf()
             productAdapter.notifyDataSetChanged()
+            // 품목 리스트의 초기값 불러옴
             initProductList(keyword = keyword, location = destination, sort = sort)
             bottomSheetDialog.dismiss()
         }

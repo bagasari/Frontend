@@ -28,6 +28,9 @@ class ProductAdapter(private var productList: List<ProductListResponse.Product>)
 
         // 구매날짜
         holder.tvProductDate.text = productList[position].purchaseDate
+
+        // 추천
+        holder.tvProductLike.text = productList[position].like.toString()
     }
 
     override fun getItemCount(): Int = productList.size
@@ -36,5 +39,6 @@ class ProductAdapter(private var productList: List<ProductListResponse.Product>)
         val tvProductName: TextView = itemView.findViewById(R.id.product_tv_name)
         val tvProductPrice: TextView = itemView.findViewById(R.id.product_tv_price)
         val tvProductDate: TextView = itemView.findViewById(R.id.product_tv_date)
+        val tvProductLike: TextView = itemView.findViewById(R.id.product_tv_like)
     }
 }

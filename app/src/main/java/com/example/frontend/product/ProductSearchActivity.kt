@@ -105,5 +105,6 @@ class ProductSearchActivity : AppCompatActivity(), ProductSearchAdapter.OnItemCl
         intent.putExtra("DEST_NAME",destination)
         intent.putExtra("KEYWORD_NAME", productName)
         startActivity(intent)
+        finish()
     }
 }
