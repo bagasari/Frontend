@@ -1,24 +1,14 @@
-package com.example.frontend.Expenditure
+package com.example.frontend.expenditure
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.widget.ImageButton
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.frontend.R
 import com.example.frontend.accountBook.ProductsByDate
-import com.example.frontend.adapter.ExpenditureAdapter
 import com.example.frontend.databinding.ActivityExpenditureBinding
-import com.example.frontend.home.HorizontalAccountBookAdapter
-import com.example.frontend.databinding.FragHomeBinding
-import com.example.frontend.dto.AccountBook
 import com.example.frontend.dto.Product
-import com.example.frontend.home.HorizontalDateAdapter
-import java.util.*
 import kotlin.collections.ArrayList
 
 // 지출 내역 리스트
@@ -95,6 +85,10 @@ class ExpenditureActivity: AppCompatActivity() {
             builder.show()
         }
 
+        binding.productBtnAddExpend.setOnClickListener{
+            val intent = Intent(this@ExpenditureActivity, CreateExpenditureActivity::class.java)
+            startActivity(intent)
+        }
 
         // 총 지출 금액 setText
         // binding.tvTotalPrice.text = "총 금액"

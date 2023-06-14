@@ -5,13 +5,8 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.example.frontend.City
-import com.example.frontend.Country
-import com.example.frontend.dao.CityDao
-import com.example.frontend.dao.CountryAndCitiesDao
-import com.example.frontend.dao.CountryDao
 
-@Database(entities = [Country::class, City::class], version=1)
+@Database(entities = [Country::class, City::class], version=2)
 abstract class AppDatabase: RoomDatabase() {
     abstract fun countryDao(): CountryDao
     abstract fun cityDao(): CityDao
@@ -27,17 +22,18 @@ abstract class AppDatabase: RoomDatabase() {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
                         AppDatabase::class.java,
-                        "countryAndCity.db"
+                        "destination.db"
                     )
                         .addCallback(object: RoomDatabase.Callback(){
                             override fun onCreate(db: SupportSQLiteDatabase) {
                                 super.onCreate(db)
                                 // 국가 정보 삽입
-                                db.execSQL("insert into country_table (country_id, country_name, country_name_eng, country_img) values (1, '일본', 'japan', 101)")
-                                db.execSQL("insert into country_table (country_id, country_name, country_name_eng, country_img) values (2, '중국', 'china', 102)")
-                                db.execSQL("insert into country_table (country_id, country_name, country_name_eng, country_img) values (3, '필리핀', 'philippine', 103)")
-                                db.execSQL("insert into country_table (country_id, country_name, country_name_eng, country_img) values (4, '미국', 'usa', 104)")
+                                db.execSQL("insert into country_table (country_id, name, name_eng, img) values (1, '일본', 'japan', 1)")
+                                db.execSQL("insert into country_table (country_id, name, name_eng, img) values (2, '중국', 'china', 2)")
+                                db.execSQL("insert into country_table (country_id, name, name_eng, img) values (3, '필리핀', 'philippine', 3)")
+                                db.execSQL("insert into country_table (country_id, name, name_eng, img) values (4, '미국', 'usa', 4)")
 
+                                db.execSQL("insert into city_table (city_id, name, name_eng, img, country_id) values (1, '발리', 'bali', 5, 1)")
 //                db!!.countryDao().insertCountry(Country(5, "인도네시아", R.drawable.Indonesia))
 //                db!!.countryDao().insertCountry(Country(6, "베트남", R.drawable.vietnam))
 //                db!!.countryDao().insertCountry(Country(7, "프랑스", R.drawable.france))
@@ -70,9 +66,10 @@ abstract class AppDatabase: RoomDatabase() {
 //                                db.execSQL("insert into city_table (city_id, city_name, city_name_eng, city_img, country_id) values (19, '라스베가스', 'lasvegas', 219, 4)")
 //                                db.execSQL("insert into city_table (city_id, city_name, city_name_eng, city_img, country_id) values (20, '하와이', 'hawaii', 220, 4)")
 
-//                                //  db!!.cityDao().insertCity(City(1, "발리", R.drawable.bali, db!!.countryDao().getCountryId("인도네시아")))
+                                //db!!.cityDao().insertCity(City(1, "발리", R.drawable.bali, db!!.countryDao().getCountryId("인도네시아")))
                             }
                         })
+                        .fallbackToDestructiveMigration()
                         .build()
                 }
             return instance

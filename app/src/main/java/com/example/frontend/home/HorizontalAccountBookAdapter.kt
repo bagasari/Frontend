@@ -8,10 +8,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.example.frontend.CreateAccountBook
-import com.example.frontend.Expenditure.ExpenditureActivity
+import com.example.frontend.accountBook.CreateAccountBook
+import com.example.frontend.expenditure.ExpenditureActivity
 import com.example.frontend.R
-import com.example.frontend.dto.AccountBook
+import com.example.frontend.accountBook.AccountBook
 
 class HorizontalAccountBookAdapter(var accountbookList: List<AccountBook>) : RecyclerView.Adapter<HorizontalAccountBookAdapter.MyViewHolder>(){
 

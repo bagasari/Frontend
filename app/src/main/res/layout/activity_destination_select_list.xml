@@ -21,7 +21,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_destination"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="330dp"
         android:layout_margin="16dp"
         android:layout_marginBottom="60dp"
         app:layout_constraintBottom_toBottomOf="@+id/sv_destination"
@@ -29,6 +29,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/destination_select_item" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_dest_list"
+        app:cardCornerRadius="80dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="#cccccc"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <Button
         android:id="@+id/btn_make_account_book"
