@@ -1,4 +1,4 @@
-package com.example.frontend
+package com.example.frontend.database
 
 import androidx.room.Embedded
 import androidx.room.Relation

@@ -1,18 +1,13 @@
-package com.example.frontend.adapter
+package com.example.frontend.expenditure
 
-import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.frontend.R
-import com.example.frontend.dto.Expenditure
 import com.example.frontend.dto.Product
-import com.example.frontend.home.HomeFragment
-import org.w3c.dom.Text
 
 class ExpenditureAdapter (val productList: ArrayList<Product>) : RecyclerView.Adapter<ExpenditureAdapter.MyViewHolder>(){
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){

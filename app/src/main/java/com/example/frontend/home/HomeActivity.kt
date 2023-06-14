@@ -5,12 +5,17 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import com.example.frontend.*
+import com.example.frontend.accountBook.AccountBookListFragment
+import com.example.frontend.accountBook.AccountService
 import com.example.frontend.database.AppDatabase
+import com.example.frontend.database.City
+import com.example.frontend.database.Country
 import com.example.frontend.databinding.ActivityHomeBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import com.example.frontend.dto.Destination
+import com.example.frontend.retrofit.RetrofitClient
+import com.example.frontend.utils.Utils
+import kotlinx.coroutines.*
+import org.json.JSONObject
 
 // 홈 Activity- Bottom Navigation + Home Fragment
 open class HomeActivity : AppCompatActivity() {
@@ -24,8 +29,11 @@ open class HomeActivity : AppCompatActivity() {
 
     // [YHJ 4/11] : DB 필드
     private var db: AppDatabase? = null
-    private lateinit var cityList: List<City>
-    private lateinit var countryList: List<Country>
+    private lateinit var cityList: List<Destination>
+    private lateinit var countryList: List<Destination>
+
+    // retrofit 통신
+    private val retrofit = RetrofitClient.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +70,7 @@ open class HomeActivity : AppCompatActivity() {
                     }
                     R.id.item_account_book -> {
                         changeFragment(myAccountBookListFragment)
+                        getAccountBookList()
                     }
                 }
                 true
@@ -84,36 +93,48 @@ open class HomeActivity : AppCompatActivity() {
         db = AppDatabase.getInstance(this)
         CoroutineScope(Dispatchers.Main).launch {
             async(Dispatchers.IO){
-//                db!!.cityDao().deleteAll()
-//               db!!.countryDao().deleteAll()
-                countryList = db!!.countryDao().getAllCountries()
-                cityList = db!!.cityDao().getAllCities()
+                countryList = db!!.countryDao().getCountryNameAndImg()
+                cityList = db!!.cityDao().getCityNameAndImg()
 
                 for(country in countryList){
-                    Log.v("test", "update : " + country.country_name + ", drawable : " + resources.getIdentifier(country.country_name_eng, "drawable", packageName))
-                    db!!.countryDao().updateCountryImg(resources.getIdentifier("japan", "drawable", packageName))
-                }
-                // db!!.countryDao().updateCountryImg()
-
-                for(country in countryList){
-                    Log.v("test", "국가명 : " + country.country_name + ", 국가 id : " + country.country_id + ", 국가 img : " + country.country_img)
+                    Log.v("test", "국가명 : " + country.name + ", 국가 img : " + country.img)
                 }
 
                 for(city in cityList){
-                    Log.v("test", "도시명 : " + city.city_name + ", 도시 id : " + city.city_id)
+                    Log.v("test", "도시명 : " + city.name)
                 }
             }
         }
     }
 
-    fun getCityList() : List<City>{
-        return cityList
-    }
+    fun getAccountBookList() {
+        // I/O 작업을 비동기적으로 처리하기 위한 코루틴 스코프를 생성
+        val scope = CoroutineScope(Job() + Dispatchers.IO)
+        scope.launch {
+            try {
+                // 로그인 요청
+                val response = retrofit.create(AccountService::class.java).getAccountBookList()
+                if (response.isSuccessful) {
+                    Log.d("ACB", "가계부 리스트 통신 성공 ${response.body()}")
+                    val accountBookDTO = response.body()
 
-    fun getCountryList() : List<Country>{
-        return countryList
-    }
 
+                } else {
+                    val errorBody = JSONObject(response.errorBody()?.string() ?: "")
+                    val errorCode = errorBody.optString("code")
+                    Log.d("ACB", "가계부 리스트 통신 실패 $errorBody")
+                    withContext(Dispatchers.Main){
+                        when (errorCode) {
+                            "A002" -> Utils.showToast(this@HomeActivity,"존재하지 않는 이메일")
+                            "A003" -> Utils.showToast(this@HomeActivity,"잘못된 비밀번호")
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                Log.d("ACB", "API 호출 실패 $e")
+            }
+        }
+    }
 
 
 }

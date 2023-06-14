@@ -4,18 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.frontend.R
-import com.example.frontend.SelectDestinationActivity
 import com.example.frontend.accountBook.ProductsByDate
-import com.example.frontend.adapter.ExpenditureAdapter
+import com.example.frontend.expenditure.ExpenditureAdapter
 import com.example.frontend.databinding.FragHomeBinding
-import com.example.frontend.dto.AccountBook
-import com.example.frontend.dto.Expenditure
+import com.example.frontend.accountBook.AccountBook
 import com.example.frontend.dto.Product
-import kotlinx.coroutines.NonDisposableHandle.parent
 import java.util.*
 
 // 홈 화면

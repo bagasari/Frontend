@@ -1,4 +1,4 @@
-package com.example.frontend.adapter
+package com.example.frontend.accountBook
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -8,9 +8,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.example.frontend.Expenditure.ExpenditureActivity
+import com.example.frontend.expenditure.ExpenditureActivity
 import com.example.frontend.R
-import com.example.frontend.dto.AccountBook
 import java.text.SimpleDateFormat
 import kotlin.collections.ArrayList
 

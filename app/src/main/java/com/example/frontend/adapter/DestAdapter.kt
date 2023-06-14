@@ -73,9 +73,7 @@ class DestAdapter (var destList: List<Destination>, var setItem: Int, var contex
             holder.setBtn(R.id.btn_choose)
             holder.btn.setOnClickListener(object : View.OnClickListener{
                 override fun onClick(p0: View?) {
-
                     Log.v("test", "여행지 이름" + destList[holder.adapterPosition].name)
-
                     chosen_dest_list.add(Destination(destList[holder.adapterPosition].name, destList[holder.adapterPosition].img))
                 }
             })
@@ -86,6 +84,15 @@ class DestAdapter (var destList: List<Destination>, var setItem: Int, var contex
     override fun getItemCount(): Int {
         return destList.size
     }
+
+    interface OnItemClickListener {
+        fun onClick(v: View, position: Int)
+    }
+
+    fun setItemClickListener(onItemClickListener: OnItemClickListener){
+        this.itemClickListener = onItemClickListener
+    }
+    private lateinit var itemClickListener : OnItemClickListener
 
 
 

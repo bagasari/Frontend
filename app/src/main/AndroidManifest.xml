@@ -31,16 +31,25 @@
             android:name=".home.HomeActivity"
             android:exported="false" />
         <activity
-            android:name=".SelectDestinationActivity"
+            android:name=".accountBook.SelectDestinationActivity"
             android:exported="false" />
         <activity
-            android:name=".Expenditure.ExpenditureActivity"
+            android:name=".expenditure.ExpenditureActivity"
             android:exported="false" />
         <activity
             android:name=".product.ProductActivity"
             android:exported="false" />
         <activity
-            android:name=".CreateAccountBook"
+            android:name=".accountBook.CreateAccountBook"
+            android:exported="false" />
+        <activity
+            android:name=".expenditure.CreateExpenditureActivity"
+            android:exported="false" />
+        <activity
+            android:name=".expenditure.FoodFormActivity"
+            android:exported="false" />
+        <activity
+            android:name=".expenditure.TransportationFormActivity"
             android:exported="false" />
         <activity
             android:name=".auth.LoginActivity"

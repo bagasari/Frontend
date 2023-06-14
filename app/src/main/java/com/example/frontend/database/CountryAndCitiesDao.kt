@@ -1,4 +1,4 @@
-package com.example.frontend.dao
+package com.example.frontend.database
 
 import androidx.room.Dao
 

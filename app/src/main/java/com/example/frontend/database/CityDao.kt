@@ -1,7 +1,8 @@
-package com.example.frontend.dao
+package com.example.frontend.database
 
 import androidx.room.*
-import com.example.frontend.City
+import com.example.frontend.database.City
+import com.example.frontend.dto.Destination
 
 @Dao
 interface CityDao {
@@ -23,12 +24,15 @@ interface CityDao {
     suspend fun getCityOfCountry(country_id : Long): List<City>
 
     // 인자로 받은 도시명에 해당하는 도시 행 조회
-    @Query("SELECT * FROM city_table WHERE city_name LIKE :city_name")
+    @Query("SELECT * FROM city_table WHERE name LIKE :city_name")
     suspend fun getCityByName(city_name : String): City
 
-    // 도시 전체 삭제 쿼가
+    // 도시 전체 삭제 쿼리
     @Query("DELETE FROM city_table")
     suspend fun deleteAll()
 
+    // 도시명과 이미지 리스트 조회
+    @Query("SELECT name, img FROM city_table")
+    suspend fun getCityNameAndImg(): List<Destination>
 
 }

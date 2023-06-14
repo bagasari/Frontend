@@ -5,6 +5,5 @@ import java.util.*
 data class Destination(
     var name: String,
     var img: Int,
-
     ) {
 }
