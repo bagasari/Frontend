@@ -33,7 +33,7 @@ data class ProductListResponse(
 
     data class Product(
         @SerializedName("id")
-        val id: Int,
+        val id: Long,
         @SerializedName("accountBookId")
         val accountBookId: Int,
         @SerializedName("name")

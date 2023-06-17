@@ -15,7 +15,7 @@ import kotlinx.coroutines.*
 import java.util.*
 
 // 상품 검색 액티비티
-class ProductActivity: AppCompatActivity() {
+class ProductActivity: AppCompatActivity(), ProductAdapter.OnItemClickListener {
     private companion object{
         private const val TAG = "ProductActivity"
     }
@@ -46,7 +46,7 @@ class ProductActivity: AppCompatActivity() {
         Log.d(TAG, "선택한 품목명 :$keyword")
 
         /** 더미데이터 테스트 - 삭제예정 **/
-        destination = "일본"
+        destination = "도쿄"
 
         // 검색한 나라/도시 텍스트 설정
         binding.productBtnSearchCity.text = destination
@@ -56,7 +56,7 @@ class ProductActivity: AppCompatActivity() {
             binding.productBtnSearchProduct.text = keyword
 
         // 품목 리스트 리사이클러뷰 어뎁터 생성
-        productAdapter = ProductAdapter(productList)
+        productAdapter = ProductAdapter(productList, this@ProductActivity)
 
         // 품목 리스트 리사이클러뷰 어뎁터 및 레이아웃 매니저 설정
         binding.productRv.apply {
@@ -72,7 +72,9 @@ class ProductActivity: AppCompatActivity() {
 
         // 지도 버튼 클릭 리스너 설정
         binding.productBtnMap.setOnClickListener {
-            val intent = Intent(this@ProductActivity, ProductMapActivity::class.java)
+            val intent = Intent(this@ProductActivity, ProductMapStaticActivity::class.java)
+            intent.putExtra("DEST_NAME",destination)
+            intent.putExtra("KEYWORD_NAME",keyword)
             startActivity(intent)
         }
 
@@ -127,7 +129,12 @@ class ProductActivity: AppCompatActivity() {
 
     }
 
-    // TODO: 리사이클러뷰 아이템 클릭하면 해당하는 값을 가지고 Map 쪽으로 넘어가게 만들기
+    override fun onItemClick(productId: Long, productName: String) {
+        val intent = Intent(this@ProductActivity, ProductMapDynamicActivity::class.java)
+        intent.putExtra("PRODUCT_ID", productId)
+        intent.putExtra("PRODUCT_NAME", productName)
+        startActivity(intent)
+    }
 
     // 품목 리스트의 초기값을 가져오는 메소드
     private fun initProductList(keyword: String?, location: String, sort: String){
@@ -157,7 +164,7 @@ class ProductActivity: AppCompatActivity() {
     }
 
     // 품목 리스트의 끝에 도달했을 때 추가적인 품목 리스트를 가져오는 메소드
-    private fun loadProductList(keyword: String?, location: String, sort: String, lastId: Int) {
+    private fun loadProductList(keyword: String?, location: String, sort: String, lastId: Long) {
         isLoading = true // 데이터 로딩 중 상태로 설정
 
         // 비동기 작업 시작

@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.frontend.R
 import com.example.frontend.databinding.ActivityProductMapBinding
 import com.example.frontend.databinding.FragProductMapBottomSheetBinding
-import com.google.android.gms.location.LocationServices
+import com.example.frontend.retrofit.RetrofitClient
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -22,22 +22,39 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class ProductMapActivity : AppCompatActivity(), OnMapReadyCallback {
+class ProductMapDynamicActivity : AppCompatActivity(), OnMapReadyCallback {
     companion object{
+        private const val TAG = "ProductMapActivity"
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
     }
+    private val retrofit = RetrofitClient.getInstance()
     private lateinit var binding: ActivityProductMapBinding
-    private lateinit var googleMap: GoogleMap
 
+    private var productId: Long = -1 // 선택한 품목 ID
+    private var productName: String? = null // 선택한 품목 이름
+
+    private lateinit var googleMap: GoogleMap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProductMapBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // 선택한 품목 ID
+        productId = intent.getLongExtra("PRODUCT_ID",-1)
+        Log.d(TAG, "선택한 품목 ID :$productId")
+
+        // 선택한 품목명
+        productName = intent.getStringExtra("PRODUCT_NAME")
+        Log.d(TAG, "선택한 품목명 :$productName")
+
         binding.productMapMv.onCreate(savedInstanceState)
-        binding.productMapMv.getMapAsync(this@ProductMapActivity)
+        binding.productMapMv.getMapAsync(this@ProductMapDynamicActivity)
     }
 
 
@@ -70,45 +87,23 @@ class ProductMapActivity : AppCompatActivity(), OnMapReadyCallback {
         // 확대/축소 버튼 활성화
         googleMap.uiSettings.isZoomControlsEnabled = true
 
+        // 최대 확대 레벨 설정
+        map.setMaxZoomPreference(15f)
+
+        // 최소 축소 레벨 설정
+        map.setMinZoomPreference(7f)
+
         // 위치 권한 확인 및 요청 - 현위치 표시 및 현위치 버튼 활성화
         checkLocationPermission()
 
-        // 현재 위치를 초기 화면으로 설정
-        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        fusedLocationClient.lastLocation
-            .addOnSuccessListener { location ->
-                location?.let {
-                    val currentLatLng = LatLng(location.latitude, location.longitude)
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
-                }
-            }
+        // 마커 추가
+        getProductMarkersDynamic()
 
-
-        // 마커 추가 - 더미 삭제 예정
-        val drawableResId = R.drawable.ic_marker_food // 리사이징할 이미지의 리소스 ID를 대체해야 합니다.
-        val resizedBitmap = resizeBitmap(this, drawableResId, 28, 28)
-        val location = LatLng(37.5680, 126.9792)
-        val markerOptions = MarkerOptions()
-            .position(location)
-            .icon(BitmapDescriptorFactory.fromBitmap(resizedBitmap))
-        val marker = googleMap.addMarker(markerOptions)
-        val product: ProductListResponse.Product = ProductListResponse.Product(1,1,"1",1,"1","1","1","1",1)
-        val markerList : MutableList<ProductListResponse.Product> = mutableListOf()
-        markerList.add(product)
-        markerList.add(product)
-        markerList.add(product)
-        markerList.add(product)
-        markerList.add(product)
-        markerList.add(product)
-        markerList.add(product)
-
-        marker.tag = markerList
-
-
+        // 마커 클릭 리스너 등록
         googleMap.setOnMarkerClickListener { clickedMarker ->
             // 마커와 연결된 품목 리스트 데이터 가져오기
             @Suppress("UNCHECKED_CAST")
-            val productList = clickedMarker.tag as MutableList<ProductListResponse.Product>
+            val productList = clickedMarker.tag as MutableList<ProductMarkerResponse>
 
             Log.d("marker", productList.toString())
 
@@ -120,9 +115,61 @@ class ProductMapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
+    // 품목 마커 리스트 가져오기
+    private fun getProductMarkersDynamic(){
+        var isInit = false
+
+        // 비동기 작업 시작
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                // 데이터를 가져오는 API 호출
+                val response = retrofit.create(ProductService::class.java).getProductMarkersDynamic(
+                    ProductMarkerDynamicRequest(id = productId, name = productName)
+                )
+
+                if (response.isSuccessful) {
+                    Log.d(TAG, "품목 마커 리스트 ${response.body()}")
+
+                    val markerList = response.body()
+
+                    // 이중 리스트
+                    if (markerList != null) {
+                        for (list in markerList) {
+                            if (list.isNotEmpty()) {
+                                // 마커 목록이 있을 경우 맨 처음 인덱스를 대표 마커로 설정
+                                val markerData = list[0]
+
+                                withContext(Dispatchers.Main) {
+                                    if(!isInit){
+                                        // 마커 목록의 첫번째 품목을 초기화면으로 설정
+                                        val initLatLng = LatLng(markerData.food.latitude, markerData.food.longitude)
+                                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(initLatLng, 15f))
+                                        isInit = true
+                                    }
+
+                                    val drawableResId = R.drawable.ic_marker_food // 리사이징할 이미지의 리소스 ID를 대체해야 합니다.
+                                    val resizedBitmap = resizeBitmap(this@ProductMapDynamicActivity, drawableResId, 28, 28)
+                                    val location = LatLng(markerData.food.latitude, markerData.food.longitude)
+                                    val markerOptions = MarkerOptions()
+                                        .position(location)
+                                        .icon(BitmapDescriptorFactory.fromBitmap(resizedBitmap))
+                                    val marker = googleMap.addMarker(markerOptions)
+                                    marker.tag = list
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                Log.d(TAG, "API 호출 실패 $e")
+            }
+        }
+    }
+
+
     // // 마커 클릭시 해당하는 마커에 포함되는 품목 리스트를 띄우는 BottomSheet를 보여주는 메소드
-    private fun showBottomSheetMenu(productList: MutableList<ProductListResponse.Product>) {
-        val bottomSheetDialog = BottomSheetDialog(this@ProductMapActivity)
+    private fun showBottomSheetMenu(productList: MutableList<ProductMarkerResponse>) {
+        val bottomSheetDialog = BottomSheetDialog(this@ProductMapDynamicActivity)
         val bottomSheetBinding = FragProductMapBottomSheetBinding.inflate(layoutInflater, null, false)
         bottomSheetDialog.setContentView(bottomSheetBinding.root)
 
@@ -131,7 +178,7 @@ class ProductMapActivity : AppCompatActivity(), OnMapReadyCallback {
 
         // 마커에 해당하는 품목 리스트 리사이클러뷰 어뎁터 및 레이아웃 매니저 설정
         bottomSheetBinding.productMapRv.apply {
-            layoutManager = LinearLayoutManager(this@ProductMapActivity)
+            layoutManager = LinearLayoutManager(this@ProductMapDynamicActivity)
             adapter = productMarkerAdapter
         }
 
@@ -144,9 +191,9 @@ class ProductMapActivity : AppCompatActivity(), OnMapReadyCallback {
     // 위치 권한을 확인하는 메소드
     private fun checkLocationPermission() {
         val permission = Manifest.permission.ACCESS_FINE_LOCATION
-        if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this@ProductMapDynamicActivity, permission) != PackageManager.PERMISSION_GRANTED) {
             // 위치 권한이 허용되지 않은 경우 권한 요청
-            ActivityCompat.requestPermissions(this, arrayOf(permission), LOCATION_PERMISSION_REQUEST_CODE)
+            ActivityCompat.requestPermissions(this@ProductMapDynamicActivity, arrayOf(permission), LOCATION_PERMISSION_REQUEST_CODE)
         } else {
             // 위치 권한이 이미 허용된 경우 현위치 버튼 활성화
             enableMyLocation()
@@ -164,7 +211,7 @@ class ProductMapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     // 현위치 버튼 활성화 메소드
     private fun enableMyLocation() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this@ProductMapDynamicActivity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             // 현위치 버튼 활성화
             googleMap.uiSettings.isMyLocationButtonEnabled = true
             // 현위치 표시
@@ -172,11 +219,11 @@ class ProductMapActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-
+    // 이미지를 지정한 크기의 Bitmap으로 변경하는 메소드
     private fun resizeBitmap(context: Context, drawableResId: Int, targetWidth: Int, targetHeight: Int): Bitmap? {
         val options = BitmapFactory.Options().apply {
             inJustDecodeBounds = true
-            BitmapFactory.decodeResource(context.resources, drawableResId, this)
+            BitmapFactory.decodeResource(context.resources, drawableResId, this@apply)
             val imageWidth = outWidth
             val imageHeight = outHeight
             val scaleFactor = calculateScaleFactor(imageWidth, imageHeight, targetWidth, targetHeight)
@@ -186,6 +233,7 @@ class ProductMapActivity : AppCompatActivity(), OnMapReadyCallback {
         return BitmapFactory.decodeResource(context.resources, drawableResId, options)
     }
 
+    // 이미지의 크기를 계산하는 메소드
     private fun calculateScaleFactor(imageWidth: Int, imageHeight: Int, targetWidth: Int, targetHeight: Int): Int {
         var scaleFactor = 1
         if (imageWidth > targetWidth || imageHeight > targetHeight) {

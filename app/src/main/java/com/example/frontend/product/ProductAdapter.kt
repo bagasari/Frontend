@@ -4,10 +4,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.frontend.R
 
-class ProductAdapter(private var productList: List<ProductListResponse.Product>) : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
+class ProductAdapter(private var productList: List<ProductListResponse.Product>, private val itemClickListener: OnItemClickListener) : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
+    interface OnItemClickListener{
+        fun onItemClick(productId: Long, productName: String)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_product, parent, false)
@@ -31,11 +35,17 @@ class ProductAdapter(private var productList: List<ProductListResponse.Product>)
 
         // 추천
         holder.tvProductLike.text = productList[position].like.toString()
+
+        holder.cvProduct.setOnClickListener {
+            val product = productList[position]
+            itemClickListener.onItemClick(productId = product.id, productName = product.name)
+        }
     }
 
     override fun getItemCount(): Int = productList.size
 
     class ProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+        val cvProduct: CardView = itemView.findViewById(R.id.product_cv)
         val tvProductName: TextView = itemView.findViewById(R.id.product_tv_name)
         val tvProductPrice: TextView = itemView.findViewById(R.id.product_tv_price)
         val tvProductDate: TextView = itemView.findViewById(R.id.product_tv_date)

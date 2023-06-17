@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.frontend.R
 
-class ProductMarkerAdapter(private var productList: List<ProductListResponse.Product>) : RecyclerView.Adapter<ProductMarkerAdapter.ProductMarkerViewHolder>() {
+class ProductMarkerAdapter(private var productList: List<ProductMarkerResponse>) : RecyclerView.Adapter<ProductMarkerAdapter.ProductMarkerViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductMarkerViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_product_map, parent, false)
@@ -20,17 +20,17 @@ class ProductMarkerAdapter(private var productList: List<ProductListResponse.Pro
         // 교통 extends 품목 - 출발지 위도/경도, 도착지 위도/경도, 교통 수단 타입
 
         // 이름
-        holder.tvProductName.text = productList[position].name
+        holder.tvProductName.text = productList[position].product.name
 
         // 가격
-        val price = productList[position].price.toString() +"원"
+        val price = productList[position].product.price.toString() +"원"
         holder.tvProductPrice.text = price
 
         // 구매날짜
-        holder.tvProductDate.text = productList[position].purchaseDate
+        holder.tvProductDate.text = productList[position].product.purchaseDate
 
         // 추천
-        holder.tvProductLike.text = productList[position].like.toString()
+        holder.tvProductLike.text = productList[position].product.like.toString()
     }
 
     override fun getItemCount(): Int = productList.size
