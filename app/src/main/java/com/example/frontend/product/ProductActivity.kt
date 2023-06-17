@@ -45,8 +45,6 @@ class ProductActivity: AppCompatActivity(), ProductAdapter.OnItemClickListener {
         keyword = intent.getStringExtra("KEYWORD_NAME")
         Log.d(TAG, "선택한 품목명 :$keyword")
 
-        /** 더미데이터 테스트 - 삭제예정 **/
-        destination = "도쿄"
 
         // 검색한 나라/도시 텍스트 설정
         binding.productBtnSearchCity.text = destination
