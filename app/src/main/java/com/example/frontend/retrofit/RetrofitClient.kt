@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit
 object RetrofitClient {
     // API 의 기본 URL
     private const val BASE_URL = "http://43.201.221.222:8080"
+    // private const val BASE_URL = "http://43.200.36.134:8080"
 
     // 타임 아웃 시간 (10초)
     private const val CONNECT_TIMEOUT_SEC = 10000L

@@ -1,6 +1,7 @@
 package com.example.frontend.home
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,9 +13,12 @@ import com.example.frontend.accountBook.CreateAccountBook
 import com.example.frontend.expenditure.ExpenditureActivity
 import com.example.frontend.R
 import com.example.frontend.accountBook.AccountBook
+import com.example.frontend.accountBook.GetAccountBookDTO
+import com.example.frontend.dto.Destination
 
-class HorizontalAccountBookAdapter(var accountbookList: List<AccountBook>) : RecyclerView.Adapter<HorizontalAccountBookAdapter.MyViewHolder>(){
-
+class HorizontalAccountBookAdapter() : RecyclerView.Adapter<HorizontalAccountBookAdapter.MyViewHolder>(){
+    private var accountBookList: MutableList<GetAccountBookDTO> = mutableListOf()
+    private var destList: MutableList<Destination> = mutableListOf()
 
     // 인자로 받은 뷰에
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
@@ -29,7 +33,7 @@ class HorizontalAccountBookAdapter(var accountbookList: List<AccountBook>) : Rec
             itemView.setOnClickListener {
                 val curPos: Int = adapterPosition
 
-                val accountBook: AccountBook = accountbookList.get(curPos)
+                val getAccountBookDTO: GetAccountBookDTO = accountBookList.get(curPos)
 
                 // 클릭한 가계부의 지출내역 페이지로 이동
                 if(curPos == 0){
@@ -37,9 +41,9 @@ class HorizontalAccountBookAdapter(var accountbookList: List<AccountBook>) : Rec
                     val intent = Intent(parent.context, CreateAccountBook::class.java)
                     parent.context.startActivity(intent)
                 }else{
-                    Toast.makeText(parent.context, "여행이름 : ${accountBook.name}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(parent.context, "여행이름 : ${getAccountBookDTO.name}", Toast.LENGTH_LONG).show()
                     val intent = Intent(parent.context, ExpenditureActivity::class.java)
-                    intent.putExtra("ACCOUNT_BOOK_NAME", accountBook.name)
+                    intent.putExtra("AccountBookId", getAccountBookDTO.id.toString())
                     parent.context.startActivity(intent)
                 }
             }
@@ -48,16 +52,35 @@ class HorizontalAccountBookAdapter(var accountbookList: List<AccountBook>) : Rec
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-            holder.img.setImageResource(R.drawable.bali)
-            holder.name.text = accountbookList.get(position).name
-
+        val city = accountBookList.get(position).city
+        val dest: Destination? = destList?.find{ it.name == city}
+        val TAG ="HorizontalAccountBook"
+        Log.d(TAG, city + " before setImg")
+        Log.d(TAG, destList.toString())
+        if (dest != null) {
+            holder.img.setImageResource(dest.img)
+            Log.d(TAG, dest.name+ " : img match")
+        }else{
+            holder.img.setImageResource(R.drawable.ic_account_book)
+            Log.d(TAG, "No name")
+        }
+        Log.d(TAG, "success setImg")
+        holder.name.text = accountBookList.get(position).name
     }
 
     // item수 턴
     override fun getItemCount(): Int {
-        return accountbookList.size
+        return accountBookList.size
     }
 
+
+    fun setData(aList: ArrayList<GetAccountBookDTO>, dList: ArrayList<Destination>){
+        accountBookList.clear()
+        accountBookList.addAll(aList)
+        destList.clear()
+        destList.addAll(dList)
+        notifyDataSetChanged()
+    }
 //    private fun translateCityToImg(cityName: String) : Int{
 //
 //    }

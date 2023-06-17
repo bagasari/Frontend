@@ -1,5 +1,6 @@
 package com.example.frontend.accountBook
 
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -8,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.frontend.R
 import com.example.frontend.dto.Destination
 import com.example.frontend.home.HorizontalAccountBookAdapter
+import java.util.*
+import kotlin.collections.ArrayList
 
 class DestListAdapter() : RecyclerView.Adapter<DestListAdapter.MyViewHolder>(){
 
@@ -19,21 +22,35 @@ class DestListAdapter() : RecyclerView.Adapter<DestListAdapter.MyViewHolder>(){
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        TODO("Not yet implemented")
 
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.selected_destination, parent, false)
+        return MyViewHolder(view).apply {
+            itemView.setOnClickListener {
+                val curPos: Int = adapterPosition
+                selectedDestList.removeAt(curPos)
+                notifyDataSetChanged()
+            }
+        }
 
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        holder.img.setImageResource(selectedDestList.get(position).img)
     }
 
     override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+        return selectedDestList.size
     }
 
     fun addItem(destination: Destination){
         selectedDestList.add(destination)
         notifyDataSetChanged()
+    }
+
+    fun selectDestName(): ArrayList<String> {
+        var destName: ArrayList<String> = arrayListOf()
+        for(i in selectedDestList)
+            destName.add(i.name)
+        return destName
     }
 }

@@ -1,9 +1,7 @@
 package com.example.frontend.accountBook
 
-import com.example.frontend.dto.Destination
 import com.google.gson.annotations.SerializedName
 import java.util.*
-import kotlin.collections.ArrayList
 
 data class AccountBook(
     val id: Long,
@@ -20,5 +18,25 @@ data class GetAccountBookDTO(
     @SerializedName("name") val name: String,
     @SerializedName("startDate") val startDate: String,
     @SerializedName("endDate") val endDate: String,
-    @SerializedName("city") val cityList: ArrayList<Destination>
+    @SerializedName("city") val city: String
 )
+
+data class PostAccountBookDTO(
+    @SerializedName("name") val name: String,
+    @SerializedName("startDate") val startDate: String,
+    @SerializedName("endDate") val endDate: String,
+    @SerializedName("isPrivate") val isPrivate: Boolean,
+    @SerializedName("cityList") val cityList: List<String>
+)
+
+data class GetCurrentAccountBookDTO(
+    @SerializedName("name") val name: String,
+    @SerializedName("startDate") val startDate: String,
+    @SerializedName("endDate") val endDate: String,
+    @SerializedName("totalPrice") val totalPrice: Int,
+    @SerializedName("productsByDate") val productsByDate: List<ProductsByDate>
+)
+
+
+
+

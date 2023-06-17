@@ -1,11 +1,10 @@
 package com.example.frontend.accountBook
 
-import com.example.frontend.dto.Product
+import com.example.frontend.expenditure.Product
 import java.util.*
-import kotlin.collections.ArrayList
 
 class ProductsByDate(
     val purchaseDate: String,
-    val products: ArrayList<Product>
-) {
-}
+    val products: List<Product>
+)
+
