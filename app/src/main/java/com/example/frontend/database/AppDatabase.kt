@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [Country::class, City::class], version=2)
+@Database(entities = [Country::class, City::class], version=5)
 abstract class AppDatabase: RoomDatabase() {
     abstract fun countryDao(): CountryDao
     abstract fun cityDao(): CityDao
@@ -22,7 +22,7 @@ abstract class AppDatabase: RoomDatabase() {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
                         AppDatabase::class.java,
-                        "destination.db"
+                        "travelList.db"
                     )
                         .addCallback(object: RoomDatabase.Callback(){
                             override fun onCreate(db: SupportSQLiteDatabase) {
@@ -33,40 +33,30 @@ abstract class AppDatabase: RoomDatabase() {
                                 db.execSQL("insert into country_table (country_id, name, name_eng, img) values (3, '필리핀', 'philippine', 3)")
                                 db.execSQL("insert into country_table (country_id, name, name_eng, img) values (4, '미국', 'usa', 4)")
 
-                                db.execSQL("insert into city_table (city_id, name, name_eng, img, country_id) values (1, '발리', 'bali', 5, 1)")
-//                db!!.countryDao().insertCountry(Country(5, "인도네시아", R.drawable.Indonesia))
-//                db!!.countryDao().insertCountry(Country(6, "베트남", R.drawable.vietnam))
-//                db!!.countryDao().insertCountry(Country(7, "프랑스", R.drawable.france))
-//                db!!.countryDao().insertCountry(Country(8, "영국", R.drawable.uk))
-//                db!!.countryDao().insertCountry(Country(9, "이탈리아", R.drawable.italy))
+                                db.execSQL("insert into city_table (city_id, name, name_eng, img, country_id) values (1, '뉴올리언스', 'neworleans', 5, 4)")
+                                db.execSQL("insert into city_table (city_id, name, name_eng, img, country_id) values (2, '뉴욕', 'newyork', 6, 4)")
+                                db.execSQL("insert into city_table (city_id, name, name_eng, img, country_id) values (3, '라스베가스', 'lasvegas', 6, 4)")
+                                db.execSQL("insert into city_table (city_id, name, name_eng, img, country_id) values (4, '보스턴', 'boston', 6, 4)")
+                                db.execSQL("insert into city_table (city_id, name, name_eng, img, country_id) values (5, '샌프란시스코', 'sanfrancisco', 6, 4)")
+                                db.execSQL("insert into city_table (city_id, name, name_eng, img, country_id) values (6, '텍사스', 'texas', 6, 4)")
+                                db.execSQL("insert into city_table (city_id, name, name_eng, img, country_id) values (7, '하와이', 'hawaii', 6, 4)")
 
+                                db.execSQL("insert into city_table (city_id, name, name_eng, img, country_id) values (8, '교토', 'kyoto', 6, 1)")
+                                db.execSQL("insert into city_table (city_id, name, name_eng, img, country_id) values (9, '도쿄', 'tokyo', 6, 1)")
+                                db.execSQL("insert into city_table (city_id, name, name_eng, img, country_id) values (10, '삿포로', 'sapporo', 6, 1)")
+                                db.execSQL("insert into city_table (city_id, name, name_eng, img, country_id) values (11, '오사카', 'osaka', 6, 1)")
+                                db.execSQL("insert into city_table (city_id, name, name_eng, img, country_id) values (12, '후쿠오카', 'fukuoka', 6, 1)")
 
-                                //도시 정보 삽입
-//                                db.execSQL("insert into city_table (city_id, city_name, city_name_eng, city_img, country_id) values (1, '오사카', 'osaka', 201, 1)")
-//                                db.execSQL("insert into city_table (city_id, city_name, city_name_eng, city_img, country_id) values (2, '도쿄', 'tokyo', 202, 1)")
-//                                db.execSQL("insert into city_table (city_id, city_name, city_name_eng, city_img, country_id) values (3, '교토', 'kyoto', 203, 1)")
-//                                db.execSQL("insert into city_table (city_id, city_name, city_name_eng, city_img, country_id) values (4, '후쿠오카', 'fukuoka', 204, 1)")
-//                                db.execSQL("insert into city_table (city_id, city_name, city_name_eng, city_img, country_id) values (5, '삿포로', 'sapporo', 205, 1)")
-//
-//                                db.execSQL("insert into city_table (city_id, city_name, city_name_eng, city_img, country_id) values (6, '베이징', 'beijing', 206, 2)")
-//                                db.execSQL("insert into city_table (city_id, city_name, city_name_eng, city_img, country_id) values (7, '상하이', 'shanghai', 207, 2)")
-//                                db.execSQL("insert into city_table (city_id, city_name, city_name_eng, city_img, country_id) values (8, '광저우', 'guangzhou', 208, 2)")
-//                                db.execSQL("insert into city_table (city_id, city_name, city_name_eng, city_img, country_id) values (9, '항저우', 'hangzhou', 209, 2)")
-//
-//                                db.execSQL("insert into city_table (city_id, city_name, city_name_eng, city_img, country_id) values (10, '세부', 'cebu', 210, 3)")
-//                                db.execSQL("insert into city_table (city_id, city_name, city_name_eng, city_img, country_id) values (11, '보라카이', 'boracay', 211, 3)")
-//                                db.execSQL("insert into city_table (city_id, city_name, city_name_eng, city_img, country_id) values (12, '마닐라', 'maynila', 212, 3)")
-//                                db.execSQL("insert into city_table (city_id, city_name, city_name_eng, city_img, country_id) values (13, '보홀', 'bohol', 213, 3)")
-//
-//                                db.execSQL("insert into city_table (city_id, city_name, city_name_eng, city_img, country_id) values (14, '뉴욕', 'newyork', 214, 4)")
-//                                db.execSQL("insert into city_table (city_id, city_name, city_name_eng, city_img, country_id) values (15, '샌프란시스코', 'sanfrancisco', 215, 4)")
-//                                db.execSQL("insert into city_table (city_id, city_name, city_name_eng, city_img, country_id) values (16, '뉴올리언스', 'neworleans', 216, 4)")
-//                                db.execSQL("insert into city_table (city_id, city_name, city_name_eng, city_img, country_id) values (17, '텍사스', 'texas', 217, 4)")
-//                                db.execSQL("insert into city_table (city_id, city_name, city_name_eng, city_img, country_id) values (18, '보스턴', 'boston', 218, 4)")
-//                                db.execSQL("insert into city_table (city_id, city_name, city_name_eng, city_img, country_id) values (19, '라스베가스', 'lasvegas', 219, 4)")
-//                                db.execSQL("insert into city_table (city_id, city_name, city_name_eng, city_img, country_id) values (20, '하와이', 'hawaii', 220, 4)")
+                                db.execSQL("insert into city_table (city_id, name, name_eng, img, country_id) values (13, '광저우', 'guangzhou', 6, 2)")
+                                db.execSQL("insert into city_table (city_id, name, name_eng, img, country_id) values (14, '베이징', 'beijing', 6, 2)")
+                                db.execSQL("insert into city_table (city_id, name, name_eng, img, country_id) values (15, '상하이', 'shanghai', 6, 2)")
+                                db.execSQL("insert into city_table (city_id, name, name_eng, img, country_id) values (16, '항저우', 'hangzhou', 6, 2)")
 
-                                //db!!.cityDao().insertCity(City(1, "발리", R.drawable.bali, db!!.countryDao().getCountryId("인도네시아")))
+                                db.execSQL("insert into city_table (city_id, name, name_eng, img, country_id) values (17, '마닐라', 'manila', 6, 3)")
+                                db.execSQL("insert into city_table (city_id, name, name_eng, img, country_id) values (18, '보라카이', 'boracay', 6, 3)")
+                                db.execSQL("insert into city_table (city_id, name, name_eng, img, country_id) values (19, '보홀', 'bohol', 6, 3)")
+                                db.execSQL("insert into city_table (city_id, name, name_eng, img, country_id) values (20, '세부', 'cebu', 6, 3)")
+
                             }
                         })
                         .fallbackToDestructiveMigration()

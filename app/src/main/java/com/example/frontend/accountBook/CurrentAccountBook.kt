@@ -9,6 +9,5 @@ data class CurrentAccountBook(
     @SerializedName("startDate") val startDate: Date,
     @SerializedName("endDate") val endDate: Date,
     @SerializedName("totalPrice") val totalPrice: Int,
-    @SerializedName("productsByDate") val productsByDate: ArrayList<ProductsByDate>
-
+    @SerializedName("productsByDate") val productsByDate: List<ProductsByDate>
 )

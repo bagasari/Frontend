@@ -29,48 +29,59 @@ open class HomeActivity : AppCompatActivity() {
 
     // [YHJ 4/11] : DB 필드
     private var db: AppDatabase? = null
+    private var destList = listOf<Destination>()
     private lateinit var cityList: List<Destination>
     private lateinit var countryList: List<Destination>
+    private var userId: String = ""
 
-    // retrofit 통신
-    private val retrofit = RetrofitClient.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val name = intent.getStringExtra("userId")!!
+
+        if(!userId.equals("still"))
+            userId = name
+
         // [YHJ 4/12] : DB 세팅
-        settingDB()
+        settingDB(name)
 
         // [YHJ 4/12] : BottomNavigationBar 바인딩
         mBinding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initNavigationBar()
+
 
     }
 
     // [YHJ 4/11] : 바텀 네비게이션바 버튼 선택시 변경
-    private fun changeFragment(fragment: Fragment) {
-        supportFragmentManager.
+    private fun changeFragment(fragment: Fragment, name: String) {
+
+            val bundle = Bundle()
+            bundle.putParcelableArrayList("destList", ArrayList(destList))
+            bundle.putString("name", name)
+
+            fragment.arguments = bundle
+            supportFragmentManager.
             beginTransaction().
             replace(R.id.container, fragment).
             commit()
+
     }
 
     // [YHJ 4/11] : 바텀 네비게이션바 실행 메소드
-    private fun initNavigationBar() {
+    private fun initNavigationBar(name: String) {
 
         binding.navView.run {
             setOnItemSelectedListener { item ->
                 when(item.itemId){
                     R.id.item_home -> {
-                        changeFragment(homeFragment)
+                        changeFragment(homeFragment, name)
                     }
                     R.id.item_search -> {
-                        changeFragment(searchFragment)
+                        changeFragment(searchFragment, name)
                     }
                     R.id.item_account_book -> {
-                        changeFragment(myAccountBookListFragment)
-                        getAccountBookList()
+                        changeFragment(myAccountBookListFragment, name)
                     }
                 }
                 true
@@ -89,49 +100,51 @@ open class HomeActivity : AppCompatActivity() {
     }
 
     // [YHJ 4/11] : 국가/도시 DB 초기 세팅 메서드
-     private fun settingDB(){
+    private fun addToList() {
+
+        destList = cityList
+        destList += countryList
+
+        destList[0].img = R.drawable.neworleans
+        destList[1].img = R.drawable.newyork
+        destList[2].img = R.drawable.lasvegas
+        destList[3].img = R.drawable.boston
+        destList[4].img = R.drawable.sanfrancisco
+        destList[5].img = R.drawable.texas
+        destList[6].img = R.drawable.hawaii
+
+        destList[7].img = R.drawable.kyoto
+        destList[8].img = R.drawable.tokyo
+        destList[9].img = R.drawable.sapporo
+        destList[10].img = R.drawable.osaka
+        destList[11].img = R.drawable.fukuoka
+
+        destList[12].img = R.drawable.guangzhou
+        destList[13].img = R.drawable.beijing
+        destList[14].img = R.drawable.shanghai
+        destList[15].img = R.drawable.hangzhou
+
+        destList[16].img = R.drawable.manila
+        destList[17].img = R.drawable.boracay
+        destList[18].img = R.drawable.bohol
+        destList[19].img = R.drawable.cebu
+
+        destList[20].img = R.drawable.japan
+        destList[21].img = R.drawable.china
+        destList[22].img = R.drawable.philippines
+        destList[23].img = R.drawable.usa
+
+    }
+
+    // [YHJ 4/11] : 국가/도시 DB 초기 세팅 메서드
+    private fun settingDB(name: String){
         db = AppDatabase.getInstance(this)
         CoroutineScope(Dispatchers.Main).launch {
             async(Dispatchers.IO){
                 countryList = db!!.countryDao().getCountryNameAndImg()
                 cityList = db!!.cityDao().getCityNameAndImg()
-
-                for(country in countryList){
-                    Log.v("test", "국가명 : " + country.name + ", 국가 img : " + country.img)
-                }
-
-                for(city in cityList){
-                    Log.v("test", "도시명 : " + city.name)
-                }
-            }
-        }
-    }
-
-    fun getAccountBookList() {
-        // I/O 작업을 비동기적으로 처리하기 위한 코루틴 스코프를 생성
-        val scope = CoroutineScope(Job() + Dispatchers.IO)
-        scope.launch {
-            try {
-                // 로그인 요청
-                val response = retrofit.create(AccountService::class.java).getAccountBookList()
-                if (response.isSuccessful) {
-                    Log.d("ACB", "가계부 리스트 통신 성공 ${response.body()}")
-                    val accountBookDTO = response.body()
-
-
-                } else {
-                    val errorBody = JSONObject(response.errorBody()?.string() ?: "")
-                    val errorCode = errorBody.optString("code")
-                    Log.d("ACB", "가계부 리스트 통신 실패 $errorBody")
-                    withContext(Dispatchers.Main){
-                        when (errorCode) {
-                            "A002" -> Utils.showToast(this@HomeActivity,"존재하지 않는 이메일")
-                            "A003" -> Utils.showToast(this@HomeActivity,"잘못된 비밀번호")
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                Log.d("ACB", "API 호출 실패 $e")
+                addToList()
+                initNavigationBar(name)
             }
         }
     }

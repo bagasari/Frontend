@@ -3,65 +3,41 @@ package com.example.frontend.expenditure
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.frontend.accountBook.ProductsByDate
 import com.example.frontend.databinding.ActivityExpenditureBinding
-import com.example.frontend.dto.Product
+import com.example.frontend.retrofit.RetrofitClient
+import kotlinx.coroutines.*
+import org.json.JSONObject
 import kotlin.collections.ArrayList
 
 // 지출 내역 리스트
 class ExpenditureActivity: AppCompatActivity() {
 
     private lateinit var binding: ActivityExpenditureBinding
+    private lateinit var getExpenditureDTO: GetExpenditureDTO
+
+    private lateinit var expendList: List<ProductsByDate>
+    private lateinit var totalList: ArrayList<Product>
+    private lateinit var dateList: ArrayList<String>
+    private lateinit var dateArray: Array<String>
+
+    // retrofit 통신
+    private val retrofit = RetrofitClient.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityExpenditureBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-        // API 통해 회원의 가계부 정보를 받아 accountBookList에 저장
-        val expendList = arrayListOf<ProductsByDate>(
-            ProductsByDate("2023-03-20", arrayListOf<Product>(
-                Product("1", 1000, "도쿄", "Transportation"),
-                Product("2", 2000, "홍콩", "Food")
-            )),
-            ProductsByDate("2023-03-21", arrayListOf<Product>(
-                Product("꼬치구이", 3000, "대만", "Food"),
-                Product("2", 400, "도쿄", "Transportation"),
-                Product("3", 3000, "홍콩", "Food")
-            )),
-            ProductsByDate("2023-03-22", arrayListOf<Product>(
-                Product("꼬치구이", 3000, "대만", "Food"),
-                Product("2", 400, "도쿄", "Transportation"),
-                Product("3", 3000, "홍콩", "Food")
-            )),
-            ProductsByDate("2023-03-23", arrayListOf<Product>(
-                Product("꼬치구이", 3000, "대만", "Food"),
-                Product("2", 400, "도쿄", "Transportation"),
-                Product("3", 3000, "홍콩", "Food")
-            ))
-        )
-
-        // 기간 전체 날짜 리스트
-        val totalList: ArrayList<Product> = arrayListOf()
-        val dateList: ArrayList<String> = arrayListOf()
-        for(productsByDate in expendList){
-            dateList.add(productsByDate.purchaseDate)
-            for(product in productsByDate.products){
-                totalList.add(product)
-            }
-        }
-        totalList.reverse()
-
-        dateList.add("기간 전체")
-        val dateArray: Array<String> = dateList.toTypedArray()
-        // 기간 다이얼로그 리사이클러뷰
+        val accountBookId = intent.getStringExtra("AccountBookId")!!.toLong()
 
         // 날짜 요소 선택 시 -
-        val expenditureAdaptor = ExpenditureAdapter(totalList)
+        val expenditureAdaptor = ExpenditureAdapter()
+        getExpenditureByAccountBookId(accountBookId, expenditureAdaptor, binding)
+
         binding.rvExpenditure.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.rvExpenditure.adapter = expenditureAdaptor
 
@@ -71,12 +47,16 @@ class ExpenditureActivity: AppCompatActivity() {
                 .setItems(dateArray,
                     DialogInterface.OnClickListener{ dialog, which ->
                         if(which != dateArray.size-1){
-                            val expenditureAdaptor = ExpenditureAdapter(expendList.get(which).products)
+                            expenditureAdaptor.setData(expendList[which].products as ArrayList<Product>)
+//
+//                            val expenditureAdaptor = ExpenditureAdapter(expendList[which].products)
                             binding.rvExpenditure.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
                             binding.rvExpenditure.adapter = expenditureAdaptor
                             binding.productBtnByDate.text = expendList.get(which).purchaseDate.substring(5)
                         }else{
-                            val expenditureAdaptor = ExpenditureAdapter(totalList)
+
+                            expenditureAdaptor.setData(totalList)
+//                            val expenditureAdaptor = ExpenditureAdapter(totalList.toList())
                             binding.rvExpenditure.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
                             binding.rvExpenditure.adapter = expenditureAdaptor
                             binding.productBtnByDate.text = "기간 전체"
@@ -87,12 +67,61 @@ class ExpenditureActivity: AppCompatActivity() {
 
         binding.productBtnAddExpend.setOnClickListener{
             val intent = Intent(this@ExpenditureActivity, CreateExpenditureActivity::class.java)
+            Log.d("accountBookId", accountBookId.toString())
+            intent.putExtra("AccountBookId", accountBookId.toString())
             startActivity(intent)
         }
 
-        // 총 지출 금액 setText
-        // binding.tvTotalPrice.text = "총 금액"
-
 
     }
+
+    fun getExpenditureByAccountBookId(accountBookId: Long, expenditureAdapter: ExpenditureAdapter, binding: ActivityExpenditureBinding){
+        // I/O 작업을 비동기적으로 처리하기 위한 코루틴 스코프를 생성
+        val scope = CoroutineScope(Job() + Dispatchers.IO)
+        scope.launch {
+            try {
+                // 로그인 요청
+                val response = retrofit.create(ExpenditureService::class.java).getExpenditureByAccountBookId(accountBookId)
+                if (response.isSuccessful) {
+                    Log.d("Expenditure", "지출 내역 통신 성공 ${response.body()}")
+                    getExpenditureDTO = response.body()!!
+                    withContext(Dispatchers.Main) {
+                        // 가계부 정보를 얻은 후에 Adapter에 데이터를 설정
+                        Log.d("Expenditure", getExpenditureDTO.toString())
+                        expendList = getExpenditureDTO.productsByDate
+                        dateList = arrayListOf()
+                        totalList = arrayListOf()
+                        // 기간 전체 날짜 리스트
+                        for(productsByDate in expendList){
+                            dateList.add(productsByDate.purchaseDate)
+                            for(product in productsByDate.products){
+                                totalList.add(product)
+                            }
+                        }
+
+                        totalList.reverse()
+                        dateList.add("기간 전체")
+                        dateArray = dateList.toTypedArray()
+
+                        expenditureAdapter.setData(totalList)
+
+
+                        // 총 지출 금액 setText
+                        binding.tvTotalPrice.text = getExpenditureDTO.totalPrice.toString()
+                    }
+
+                } else {
+                    val errorBody = JSONObject(response.errorBody()?.string() ?: "")
+                    val errorCode = errorBody.optString("code")
+                    Log.d("Expenditure", "지출 내역 통신 실패 $errorBody")
+                    withContext(Dispatchers.Main){
+                    }
+                }
+            } catch (e: Exception) {
+                Log.d("Expenditure", "API 호출 실패 $e")
+            }
+        }
+    }
+
 }
+

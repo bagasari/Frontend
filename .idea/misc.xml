@@ -36,9 +36,11 @@
         <entry key="app/src/main/res/layout/destnaion_select_item.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/expenditure_item.xml" value="0.1" />
         <entry key="app/src/main/res/layout/frag_account_book.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/frag_home.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/frag_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/frag_search.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_account_book_list.xml" value="0.1276595744680851" />
+        <entry key="app/src/main/res/layout/item_product.xml" value="0.27395833333333336" />
+        <entry key="app/src/main/res/layout/item_product_search.xml" value="0.27395833333333336" />
         <entry key="app/src/main/res/layout/menu.xml" value="0.1" />
         <entry key="app/src/main/res/layout/my_account_book_horizontal.xml" value="0.2346014492753623" />
         <entry key="app/src/main/res/layout/selected_destination.xml" value="0.26614583333333336" />

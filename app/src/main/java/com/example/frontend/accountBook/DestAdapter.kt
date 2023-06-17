@@ -1,4 +1,4 @@
-package com.example.frontend.adapter
+package com.example.frontend.accountBook
 
 import android.content.Context
 import android.content.Intent
@@ -15,18 +15,20 @@ import com.example.frontend.product.ProductActivity
 import com.example.frontend.R
 import com.example.frontend.dto.Destination
 
-class DestAdapter (var destList: List<Destination>, var setItem: Int, var context: Context)
+class DestAdapter (var destList: List<Destination>, var setItem: String, var context: Context)
     : RecyclerView.Adapter<DestAdapter.DestViewHolder>(){
+
+    private lateinit var itemClickListener : OnItemClickListener
+
+    interface OnItemClickListener {
+        fun onItemClick(itemName: String, itemImg: Int)
+    }
 
     // 잡아주는 역할
     inner class DestViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val img : ImageView = itemView.findViewById<ImageView>(R.id.iv_destination) // 가계부 이미지
         val name : TextView = itemView.findViewById<TextView>(R.id.tv_destination_name) // 가계부 이름
-        lateinit var btn: Button
 
-        public fun setBtn(setBtn: Int){
-            btn = itemView.findViewById<Button>(R.id.btn_choose)
-        }
     }
 
     fun setFilteredList(destList: List<Destination>){
@@ -37,8 +39,8 @@ class DestAdapter (var destList: List<Destination>, var setItem: Int, var contex
     // onCreateViewHolder : 어떤 목록 레이아웃을 만들 것인지 반환(어떤 뷰를 생성할 것인가)
     // ViewHolder 생성시 뷰를 담아서 DestViewHolder에 적용하여 리턴
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DestViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(setItem, parent, false)
-        if(setItem == R.layout.destination_search_item){
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.destination_search_item, parent, false)
+        if(setItem.equals("search")){
 
             return DestViewHolder(view).apply {
                 itemView.setOnClickListener {
@@ -53,10 +55,17 @@ class DestAdapter (var destList: List<Destination>, var setItem: Int, var contex
 
                 }
             }
-        }else if(setItem == R.layout.destination_select_item){
+        }else if(setItem.equals("select")){
+
             // 클릭한
             return DestViewHolder(view).apply {
-
+                itemView.setOnClickListener {
+                    val curPos: Int = adapterPosition
+                    Toast.makeText(parent.context, "여행이름 : ${destList[curPos].name}", Toast.LENGTH_LONG).show()
+                    val itemName = destList[curPos].name
+                    val itemImg = destList[curPos].img
+                    itemClickListener.onItemClick(itemName, itemImg)
+                }
             }
         }else{
             return DestViewHolder(view)
@@ -68,32 +77,16 @@ class DestAdapter (var destList: List<Destination>, var setItem: Int, var contex
         holder.img.setImageResource(destList[position].img)
         holder.name.text = destList[position].name
 
-        if(setItem == R.layout.destination_select_item){
-            var chosen_dest_list : ArrayList<Destination> = arrayListOf()
-            holder.setBtn(R.id.btn_choose)
-            holder.btn.setOnClickListener(object : View.OnClickListener{
-                override fun onClick(p0: View?) {
-                    Log.v("test", "여행지 이름" + destList[holder.adapterPosition].name)
-                    chosen_dest_list.add(Destination(destList[holder.adapterPosition].name, destList[holder.adapterPosition].img))
-                }
-            })
-        }
-
     }
 
     override fun getItemCount(): Int {
         return destList.size
     }
 
-    interface OnItemClickListener {
-        fun onClick(v: View, position: Int)
-    }
 
     fun setItemClickListener(onItemClickListener: OnItemClickListener){
         this.itemClickListener = onItemClickListener
     }
-    private lateinit var itemClickListener : OnItemClickListener
-
 
 
 }

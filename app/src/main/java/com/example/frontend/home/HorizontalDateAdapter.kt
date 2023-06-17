@@ -6,10 +6,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.frontend.R
+import com.example.frontend.accountBook.GetCurrentAccountBookDTO
 import com.example.frontend.accountBook.ProductsByDate
 
-class HorizontalDateAdapter(var dateList: ArrayList<ProductsByDate>) : RecyclerView.Adapter<HorizontalDateAdapter.MyViewHolder>(){
-
+class HorizontalDateAdapter(var dateList: List<ProductsByDate>) : RecyclerView.Adapter<HorizontalDateAdapter.MyViewHolder>(){
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val date = itemView.findViewById<TextView>(R.id.tv_date)
@@ -25,7 +25,8 @@ class HorizontalDateAdapter(var dateList: ArrayList<ProductsByDate>) : RecyclerV
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.date.text = dateList.get(position).purchaseDate
+        val dateString = dateList.get(position).purchaseDate
+        holder.date.text = dateString.substring(dateString.length - 2)
         holder.itemView.setOnClickListener{
             itemClickListener.onClick(it, position)
         }
@@ -33,6 +34,11 @@ class HorizontalDateAdapter(var dateList: ArrayList<ProductsByDate>) : RecyclerV
 
     override fun getItemCount(): Int {
         return dateList.size
+    }
+
+    fun updateData(newItem: List<ProductsByDate>){
+        dateList = newItem
+        notifyDataSetChanged()
     }
 
 
