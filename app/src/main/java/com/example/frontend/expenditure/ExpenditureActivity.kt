@@ -82,6 +82,8 @@ class ExpenditureActivity: AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
+        Log.d("ExpenditureActivity", "onResume")
+
         val expenditureAdaptor = binding.rvExpenditure.adapter as ExpenditureAdapter
         getExpenditureByAccountBookId(accountBookId, expenditureAdaptor, binding)
 

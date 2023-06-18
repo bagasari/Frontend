@@ -47,7 +47,7 @@ class HorizontalAccountBookAdapter() : RecyclerView.Adapter<HorizontalAccountBoo
 
                     Log.d("HorizontalAccountBookAd", "OnCreateViewHolderA")
                 }else{
-                    Toast.makeText(parent.context, "여행이름 : ${getAccountBookDTO.name}", Toast.LENGTH_LONG).show()
+                    //Toast.makeText(parent.context, "여행이름 : ${getAccountBookDTO.name}", setDatat.LENGTH_LONG).show()
                     val intent = Intent(parent.context, ExpenditureActivity::class.java)
                     intent.putExtra("AccountBookId", getAccountBookDTO.id.toString())
                     parent.context.startActivity(intent)

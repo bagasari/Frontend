@@ -87,7 +87,6 @@ class CreateAccountBook : AppCompatActivity() {
             bookName = binding.etNewAccountBook.text.toString()
 
             // 생성하기 버튼 누를 시 api 요청
-            Toast.makeText(this, "가계부 이름 : " + bookName + " , 시작 날짜 : " + startDate + ", 종료 날짜 : " + endDate, Toast.LENGTH_SHORT).show()
             val destList = intent.getStringArrayListExtra("selectedDestList") as ArrayList<String>
             val dList: List<String> = destList.toList()
             val postAccountBook = PostAccountBookDTO(bookName, startDate, endDate, isPrivate, dList)

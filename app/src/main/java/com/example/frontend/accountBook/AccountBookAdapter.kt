@@ -16,7 +16,10 @@ import de.hdodenhof.circleimageview.CircleImageView
 import java.text.SimpleDateFormat
 import kotlin.collections.ArrayList
 
-class AccountBookAdapter(var accountBookList: List<GetAccountBookDTO>, val destList: List<Destination>?) : RecyclerView.Adapter<AccountBookAdapter.CustomViewHolder>(){
+class AccountBookAdapter() : RecyclerView.Adapter<AccountBookAdapter.CustomViewHolder>(){
+
+    private var accountBookList: MutableList<GetAccountBookDTO> = mutableListOf()
+    private var destList: MutableList<Destination> = mutableListOf()
 
     // ViewHolder가 생성될 때
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
@@ -29,7 +32,7 @@ class AccountBookAdapter(var accountBookList: List<GetAccountBookDTO>, val destL
                 val accountBook = accountBookList.get(curPos)
 
                 //Intent 이동 하여 해당 가계부의 지출 내역 보여주기
-                Toast.makeText(parent.context, "여행이름 : ${accountBook.name}", Toast.LENGTH_LONG).show()
+                //Toast.makeText(parent.context, "여행이름 : ${accountBook.name}", Toast.LENGTH_LONG).show()
                 val intent = Intent(parent.context, ExpenditureActivity::class.java)
                 Log.d("AccountBookAdapter", accountBook.id.toString())
                 intent.putExtra("AccountBookId", accountBook.id.toString())
@@ -59,11 +62,18 @@ class AccountBookAdapter(var accountBookList: List<GetAccountBookDTO>, val destL
         return accountBookList.size
     }
 
-    fun updateData(newData: List<GetAccountBookDTO>) {
-        accountBookList = newData
+//    fun updateData(newData: List<GetAccountBookDTO>) {
+//        accountBookList = newData
+//        notifyDataSetChanged()
+//    }
+
+    fun setData(aList: ArrayList<GetAccountBookDTO>, dList: ArrayList<Destination>){
+        accountBookList.clear()
+        accountBookList.addAll(aList)
+        destList.clear()
+        destList.addAll(dList)
         notifyDataSetChanged()
     }
-
     // 잡아주는 역할
     class CustomViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val img = itemView.findViewById<CircleImageView>(R.id.iv_account_book_city) // 가계부 이미지
