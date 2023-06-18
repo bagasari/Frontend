@@ -310,7 +310,7 @@ class ProductMapStaticActivity : AppCompatActivity(), OnMapReadyCallback, Produc
             try {
                 // 데이터를 가져오는 API 호출
                 val response = retrofit.create(ProductService::class.java).postProductLike(
-                    ProductLikeRequest(ProductLikeRequest.AuthInfo(email = email),ProductLikeRequest.DTO(productId = productId))
+                    ProductLikeRequest(productId = productId)
                 )
 
                 if (response.isSuccessful) {
@@ -328,7 +328,7 @@ class ProductMapStaticActivity : AppCompatActivity(), OnMapReadyCallback, Produc
             try {
                 // 데이터를 가져오는 API 호출
                 val response = retrofit.create(ProductService::class.java).postProductDisLike(
-                    ProductLikeRequest(ProductLikeRequest.AuthInfo(email = email),ProductLikeRequest.DTO(productId = productId))
+                    ProductLikeRequest(productId = productId)
                 )
 
                 if (response.isSuccessful) {

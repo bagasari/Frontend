@@ -74,6 +74,7 @@ class ProductActivity: AppCompatActivity(), ProductAdapter.OnItemClickListener {
             intent.putExtra("DEST_NAME",destination)
             intent.putExtra("KEYWORD_NAME",keyword)
             startActivity(intent)
+            finish()
         }
 
         // 품목 검색창 클릭 리스너 설정
@@ -132,6 +133,7 @@ class ProductActivity: AppCompatActivity(), ProductAdapter.OnItemClickListener {
         intent.putExtra("PRODUCT_ID", productId)
         intent.putExtra("PRODUCT_NAME", productName)
         startActivity(intent)
+        finish()
     }
 
     // 품목 리스트의 초기값을 가져오는 메소드

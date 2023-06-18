@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.frontend.R
 
@@ -68,6 +69,16 @@ class ProductMarkerAdapter(private val context: Context, private var productList
 
         // 추천
         holder.tvProductLike.text = productList[position].product.like.toString()
+
+        // 좋아요 여부에 따른 변화
+        if(productList[position].isLike){
+            val likeOnDrawable = ContextCompat.getDrawable(context, R.drawable.ic_like_on)
+            holder.ivProductLike.setImageDrawable(likeOnDrawable)
+        }
+        else{
+            val likeOffDrawable = ContextCompat.getDrawable(context, R.drawable.ic_like_off)
+            holder.ivProductLike.setImageDrawable(likeOffDrawable)
+        }
     }
 
     override fun getItemCount(): Int = productList.size
