@@ -2,6 +2,7 @@ package com.example.frontend.product
 
 import android.Manifest
 import android.content.Context
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -30,7 +31,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ProductMapStaticActivity : AppCompatActivity(), OnMapReadyCallback {
+class ProductMapStaticActivity : AppCompatActivity(), OnMapReadyCallback, ProductMarkerAdapter.OnItemClickListener {
     companion object{
         private const val TAG = "ProductMapActivity"
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
@@ -49,11 +50,15 @@ class ProductMapStaticActivity : AppCompatActivity(), OnMapReadyCallback {
     private val markerUpdateRunnable = Runnable {
         getProductMarkersStatic()
     }
+    private lateinit var sharedPref: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProductMapBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val context:Context = this
+        sharedPref = context.getSharedPreferences("USER", Context.MODE_PRIVATE)
 
         // 검색한 나라/도시
         destination = intent.getStringExtra("DEST_NAME").toString()
@@ -213,7 +218,7 @@ class ProductMapStaticActivity : AppCompatActivity(), OnMapReadyCallback {
         bottomSheetDialog.setContentView(bottomSheetBinding.root)
 
         // 마커에 해당하는 품목 리스트 리사이클러뷰 어뎁터 생성
-        val productMarkerAdapter = ProductMarkerAdapter(productList)
+        val productMarkerAdapter = ProductMarkerAdapter(this@ProductMapStaticActivity, productList,this@ProductMapStaticActivity)
 
         // 마커에 해당하는 품목 리스트 리사이클러뷰 어뎁터 및 레이아웃 매니저 설정
         bottomSheetBinding.productMapRv.apply {
@@ -283,5 +288,56 @@ class ProductMapStaticActivity : AppCompatActivity(), OnMapReadyCallback {
         return scaleFactor
     }
 
+    override fun onItemClick(product: ProductMarkerResponse) {
+        val isLike = product.isLike
+        val productId = product.product.id
+        val email = sharedPref.getString("EMAIL", "")
+
+        if(isLike){
+            // 좋아요 눌린 상태 -> 좋아요 취소
+            postProductDisLike(email!!, productId)
+        }
+        else{
+            // 좋아요 안눌린 상태 -> 좋아요
+            postProductLike(email!!, productId)
+        }
+
+    }
+
+    private fun postProductLike(email: String, productId: Long){
+        // 비동기 작업 시작
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                // 데이터를 가져오는 API 호출
+                val response = retrofit.create(ProductService::class.java).postProductLike(
+                    ProductLikeRequest(ProductLikeRequest.AuthInfo(email = email),ProductLikeRequest.DTO(productId = productId))
+                )
+
+                if (response.isSuccessful) {
+                    Log.d(TAG, "품목 좋아요 성공 ${response.body()}")
+                }
+            } catch (e: Exception) {
+                Log.d(TAG, "API 호출 실패 $e")
+            }
+        }
+    }
+
+    private fun postProductDisLike(email: String, productId: Long){
+        // 비동기 작업 시작
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                // 데이터를 가져오는 API 호출
+                val response = retrofit.create(ProductService::class.java).postProductDisLike(
+                    ProductLikeRequest(ProductLikeRequest.AuthInfo(email = email),ProductLikeRequest.DTO(productId = productId))
+                )
+
+                if (response.isSuccessful) {
+                    Log.d(TAG, "품목 좋아요 성공 ${response.body()}")
+                }
+            } catch (e: Exception) {
+                Log.d(TAG, "API 호출 실패 $e")
+            }
+        }
+    }
 }
 

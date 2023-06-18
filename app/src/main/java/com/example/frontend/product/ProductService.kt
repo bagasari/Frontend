@@ -29,4 +29,14 @@ interface ProductService {
     suspend fun getProductMarkersDynamic(
         @Body request: ProductMarkerDynamicRequest
     ): Response<List<List<ProductMarkerResponse>>>
+
+    @POST("/v1/product/like")
+    suspend fun postProductLike(
+        @Body request: ProductLikeRequest
+    ): Response<String>
+
+    @POST("/v1/product/dislike")
+    suspend fun postProductDisLike(
+        @Body request: ProductLikeRequest
+    ): Response<String>
 }

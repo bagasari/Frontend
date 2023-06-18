@@ -1,5 +1,6 @@
 package com.example.frontend.home
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -31,7 +32,12 @@ open class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val context: Context = this
         val name = intent.getStringExtra("userId")!!
+        val sharedPref = context.getSharedPreferences("USER", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        editor.putString("EMAIL", name) // 예시: 문자열 값 저장
+        editor.apply()
 
         if(!userId.equals("still"))
             userId = name
