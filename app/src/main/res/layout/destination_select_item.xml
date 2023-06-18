@@ -8,32 +8,30 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_destination"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="4dp"
-            app:srcCompat="@drawable/bali"/>
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:srcCompat="@drawable/bali" />
 
         <TextView
             android:id="@+id/tv_destination_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
             android:text="발리"
             android:fontFamily="@font/pretendard_bold"
-            app:layout_constraintEnd_toEndOf="@+id/iv_destination"
-            app:layout_constraintStart_toStartOf="@+id/iv_destination"
-            app:layout_constraintTop_toBottomOf="@+id/iv_destination" />
+            app:layout_constraintStart_toEndOf="@+id/iv_destination"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
 
         <CheckBox
@@ -42,12 +40,10 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="15dp"
             android:text="선택"
-
             android:fontFamily="@font/pretendard_bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

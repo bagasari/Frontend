@@ -14,15 +14,13 @@
         app:queryHint="여행, 어디로 떠나시나요?"
         android:fontFamily="@font/pretendard_bold"
         app:queryBackground="@android:color/transparent"
-        android:layout_marginTop="12dp"
         app:iconifiedByDefault="false"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_destination"
         android:layout_width="match_parent"
         android:layout_height="360dp"
-        android:layout_margin="8dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/sv_destination"
         app:layout_constraintEnd_toEndOf="@id/btn_make_account_book"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,13 +29,11 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_dest_list"
-        app:cardCornerRadius="70dp"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginTop="16dp"
+
         android:background="#cccccc"
-        android:layout_margin="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,11 +41,12 @@
 
     <Button
         android:id="@+id/btn_make_account_book"
+        style="?attr/materialButtonOutlinedStyle"
         android:layout_width="match_parent"
-        android:layout_height="43dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="가계부 생성하기"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
+        android:textSize="16sp"
         android:fontFamily="@font/pretendard_bold"/>
 
 

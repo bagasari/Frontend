@@ -13,17 +13,14 @@
         android:layout_height="35dp"
         android:textSize="24sp"
         android:text="삭-바가지"
-        android:layout_marginLeft="4dp"
-        android:fontFamily="@font/pretendard_bold"
-        android:gravity="center"/>
+        android:fontFamily="@font/pretendard_bold"/>
 
     <Button
         android:id="@+id/btn_home_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
+        android:layout_marginTop="4dp"
         android:text="여행, 어디로 떠나시나요?"
-        android:textColor="#FF000000"
         android:drawableLeft="@drawable/ic_search"
         style="?attr/materialButtonOutlinedStyle"
         android:fontFamily="@font/pretendard_bold"/>
@@ -33,9 +30,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        android:layout_margin="4dp"
+        android:layout_marginTop="4dp"
         android:text="00님의 가계부"
-        android:gravity="center"
         android:fontFamily="@font/pretendard_bold"/>
 
 
@@ -43,12 +39,13 @@
         android:id="@+id/rv_my_account_book_ht"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minHeight="200dp"
+        android:layout_marginTop="4dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_margin="4dp"
         android:fontFamily="@font/pretendard_bold"/>
 
 
@@ -56,10 +53,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        android:layout_margin="4dp"
+        android:layout_marginTop="4dp"
         android:text="현재 작성중인 가계부"
-
-        android:gravity="center"
         android:fontFamily="@font/pretendard_bold"/>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -68,7 +63,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginLeft="4dp">
+        android:layout_marginTop="4dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -91,8 +86,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-        android:layout_marginLeft="4dp">
+        android:layout_marginTop="4dp"
+    android:orientation="horizontal">
 
         <TextView
         android:layout_width="wrap_content"
@@ -132,7 +127,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginLeft="4dp">
+        android:layout_marginTop="4dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -156,10 +151,7 @@
         app:cardCornerRadius="40dp"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
         android:background="#cccccc"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -170,12 +162,11 @@
         android:id="@+id/rv_writing_account_book"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:minHeight="200dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-
-        android:layout_margin="4dp"/>
-
+        app:layout_constraintTop_toTopOf="parent" />
 
 </LinearLayout>

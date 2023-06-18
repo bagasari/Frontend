@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.frontend.expenditure.ExpenditureActivity
 import com.example.frontend.R
 import com.example.frontend.dto.Destination
+import de.hdodenhof.circleimageview.CircleImageView
 import java.text.SimpleDateFormat
 import kotlin.collections.ArrayList
 
@@ -65,7 +66,7 @@ class AccountBookAdapter(var accountBookList: List<GetAccountBookDTO>, val destL
 
     // 잡아주는 역할
     class CustomViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val img = itemView.findViewById<ImageView>(R.id.iv_account_book_city) // 가계부 이미지
+        val img = itemView.findViewById<CircleImageView>(R.id.iv_account_book_city) // 가계부 이미지
         val name = itemView.findViewById<TextView>(R.id.tv_account_book_name) // 가계부 이름
         val startDate = itemView.findViewById<TextView>(R.id.tv_account_book_start_date) // 여행 시작 날짜
         val endDate = itemView.findViewById<TextView>(R.id.tv_account_book_end_date) // 여행 종료 날짜

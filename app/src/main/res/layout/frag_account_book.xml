@@ -28,6 +28,7 @@
 
         <Button
             android:id="@+id/btn_create_account_book"
+            style="?attr/materialButtonOutlinedStyle"
             android:layout_width="90dp"
             android:layout_height="40dp"
             android:layout_below="@+id/textView"

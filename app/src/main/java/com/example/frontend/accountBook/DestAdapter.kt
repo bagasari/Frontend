@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.frontend.product.ProductActivity
 import com.example.frontend.R
 import com.example.frontend.dto.Destination
+import de.hdodenhof.circleimageview.CircleImageView
 
 class DestAdapter (var destList: List<Destination>, var setItem: String, var context: Context)
     : RecyclerView.Adapter<DestAdapter.DestViewHolder>(){
@@ -26,7 +27,7 @@ class DestAdapter (var destList: List<Destination>, var setItem: String, var con
 
     // 잡아주는 역할
     inner class DestViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val img : ImageView = itemView.findViewById<ImageView>(R.id.iv_destination) // 가계부 이미지
+        val img : CircleImageView = itemView.findViewById(R.id.iv_destination) // 가계부 이미지
         val name : TextView = itemView.findViewById<TextView>(R.id.tv_destination_name) // 가계부 이름
 
     }
