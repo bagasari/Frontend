@@ -48,12 +48,14 @@ class HomeFragment : Fragment(R.layout.frag_home) {
         destList = bundle?.getParcelableArrayList<Destination>("destList")!!.toList()
         Log.d("HomeFragment", destList.toString())
         binding.btnHomeSearch.setOnClickListener{
+            val searchFragment = SearchFragment()
+            bundle.putParcelableArrayList("destList", ArrayList(destList))
 
-            val intent = Intent(context, HomeActivity::class.java).apply{
-                putExtra("FRAG_NUM", "search")
-                putExtra("userId", "still")
-            }
-            startActivity(intent)
+            searchFragment.arguments = bundle
+            requireActivity().supportFragmentManager.
+            beginTransaction().
+            replace(R.id.container, searchFragment).
+            commit()
         }
 
         val userId = bundle?.getString("name")
