@@ -154,6 +154,7 @@ class ProductActivity: AppCompatActivity(), ProductAdapter.OnItemClickListener {
 
                     withContext(Dispatchers.Main) {
                         productList.addAll(initProductList)
+                        productAdapter.setProductList(productList)
                         productAdapter.notifyDataSetChanged()
                     }
                 }

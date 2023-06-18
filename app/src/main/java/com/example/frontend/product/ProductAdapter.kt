@@ -16,6 +16,11 @@ class ProductAdapter(private val context: Context, private var productList: List
         fun onItemClick(productId: Long, productName: String)
     }
 
+    fun setProductList(productList: List<ProductListResponse.ContentItem>) {
+        this.productList = productList
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_product, parent, false)
 
