@@ -5,6 +5,7 @@
     android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/product_map_cv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
@@ -52,18 +53,30 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/product_map_tv_like"
-                        android:layout_width="140dp"
+                    <LinearLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:drawableLeft="@drawable/ic_like"
-                        android:drawablePadding="4dp"
-                        android:text="추천수"
-                        android:textSize="12sp"
-                        android:fontFamily="@font/pretendard_medium"
-                        android:ellipsize="end"
-                        android:maxLines="1" />
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/product_map_iv_like"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_like_off"
+                            android:layout_gravity="center"/>
+                        <TextView
+                            android:id="@+id/product_map_tv_like"
+                            android:layout_width="140dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:text="추천수"
+                            android:textSize="12sp"
+                            android:fontFamily="@font/pretendard_medium"
+                            android:ellipsize="end"
+                            android:maxLines="1" />
+                    </LinearLayout>
+
 
                     <TextView
                         android:id="@+id/product_map_tv_date"

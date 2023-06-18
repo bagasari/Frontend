@@ -10,7 +10,7 @@ data class ProductListResponse(
     @SerializedName("size")
     val size: Int,
     @SerializedName("content")
-    val content: MutableList<Product>,
+    val content: List<ContentItem>,
     @SerializedName("numberOfElements")
     val numberOfElements: Int,
     @SerializedName("pageable")
@@ -31,6 +31,13 @@ data class ProductListResponse(
         val unsorted: Boolean
     )
 
+    data class ContentItem(
+        @SerializedName("product")
+        val product: Product,
+        @SerializedName("isLike")
+        val isLike: Boolean
+    )
+
     data class Product(
         @SerializedName("id")
         val id: Long,
@@ -49,7 +56,9 @@ data class ProductListResponse(
         @SerializedName("city")
         val city: String,
         @SerializedName("like")
-        val like: Int
+        val like: Int,
+        @SerializedName("productType")
+        val productType: String
     )
 
     data class Pageable(

@@ -27,7 +27,7 @@ class ProductActivity: AppCompatActivity(), ProductAdapter.OnItemClickListener {
     private var sort = "id" // 정렬 방법 - 기본값 (최신순)
 
     private var isLatestSelected = true // 최신순, 추천순 선택
-    private var productList = mutableListOf<ProductListResponse.Product>()// 품목 리스트
+    private var productList = mutableListOf<ProductListResponse.ContentItem>()// 품목 리스트
     private lateinit var productAdapter: ProductAdapter // 품목 리스트 리사이클러뷰 어뎁터
     private var isLoading = false // 데이터 로딩 중 여부를 나타내는 변수
     private var isLastPage = false // 모든 데이터를 로드했는지 여부를 나타내는 변수
@@ -54,7 +54,7 @@ class ProductActivity: AppCompatActivity(), ProductAdapter.OnItemClickListener {
             binding.productBtnSearchProduct.text = keyword
 
         // 품목 리스트 리사이클러뷰 어뎁터 생성
-        productAdapter = ProductAdapter(productList, this@ProductActivity)
+        productAdapter = ProductAdapter(this@ProductActivity, productList, this@ProductActivity)
 
         // 품목 리스트 리사이클러뷰 어뎁터 및 레이아웃 매니저 설정
         binding.productRv.apply {
@@ -120,7 +120,7 @@ class ProductActivity: AppCompatActivity(), ProductAdapter.OnItemClickListener {
 
                 if (isLastItemVisible && isNotLoadingAndNotLastPage) {
                     // 끝에 도달했으므로 추가 데이터를 로드하는 작업을 수행합니다.
-                    loadProductList(keyword = keyword, location = destination, sort = sort, lastId = productList[productList.size-1].id)
+                    loadProductList(keyword = keyword, location = destination, sort = sort, lastId = productList[productList.size-1].product.id)
                 }
             }
         })

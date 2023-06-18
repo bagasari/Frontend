@@ -4,10 +4,11 @@ import com.google.gson.annotations.SerializedName
 
 data class ProductMarkerResponse(
     @SerializedName("product") val product: Product,
-    @SerializedName("food") val food: Food
+    @SerializedName("food") val food: Food,
+    @SerializedName("isLike") var isLike: Boolean
 ) {
     data class Product(
-        @SerializedName("id") val id: Int,
+        @SerializedName("id") val id: Long,
         @SerializedName("accountBookId") val accountBookId: Int,
         @SerializedName("name") val name: String,
         @SerializedName("price") val price: Int,
