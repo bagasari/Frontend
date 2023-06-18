@@ -84,6 +84,8 @@ class SelectDestinationActivity : AppCompatActivity() {
             val intent = Intent(this, CreateAccountBook::class.java)
             intent.putExtra("selectedDestList", selectedDestList)
             startActivity(intent)
+            setResult(RESULT_OK)
+            finish()
         }
 
 

@@ -4,31 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="12dp">
 
     <TextView
         android:id="@+id/tv_home"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:textSize="25sp"
-        android:text="삭-바가지"/>
+        android:textSize="24sp"
+        android:text="삭-바가지"
+        android:layout_marginLeft="4dp"
+        android:fontFamily="@font/pretendard_bold"
+        android:gravity="center"/>
 
     <Button
         android:id="@+id/btn_home_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_margin="4dp"
         android:text="여행, 어디로 떠나시나요?"
         android:textColor="#FF000000"
         android:drawableLeft="@drawable/ic_search"
-        style="?attr/materialButtonOutlinedStyle" />
+        style="?attr/materialButtonOutlinedStyle"
+        android:fontFamily="@font/pretendard_bold"/>
 
     <TextView
         android:id="@+id/tv_user_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:text="00님의 가계부"/>
+        android:textSize="20sp"
+        android:layout_margin="4dp"
+        android:text="00님의 가계부"
+        android:gravity="center"
+        android:fontFamily="@font/pretendard_bold"/>
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -39,34 +47,43 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="4dp"
+        android:fontFamily="@font/pretendard_bold"/>
 
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:textSize="25sp"
-        android:text="현재 작성중인 가계부"/>
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_margin="4dp"
+        android:text="현재 작성중인 가계부"
+
+        android:gravity="center"
+        android:fontFamily="@font/pretendard_bold"/>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginLeft="4dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:text="가계부명 : "/>
+            android:textSize="14sp"
+            android:text="가계부명 : "
+            android:fontFamily="@font/pretendard_bold"/>
 
         <TextView
             android:id="@+id/tv_writing_account_book"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:text="000"/>
+            android:textSize="14sp"
+            android:text="000"
+            android:fontFamily="@font/pretendard_bold"/>
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -74,33 +91,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+        android:layout_marginLeft="4dp">
 
         <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:text="여행 날짜 : "/>
+        android:textSize="14sp"
+        android:text="여행 날짜 : "
+            android:fontFamily="@font/pretendard_bold"/>
 
         <TextView
             android:id="@+id/tv_start_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:text="00.00.00"/>
+            android:textSize="14sp"
+            android:text="00.00.00"
+            android:fontFamily="@font/pretendard_bold"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:text=" ~ "/>
+            android:textSize="14sp"
+            android:text=" ~ "
+            android:fontFamily="@font/pretendard_bold"/>
 
         <TextView
             android:id="@+id/tv_end_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:text="00.00.00"/>
+            android:textSize="14sp"
+            android:text="00.00.00"
+            android:fontFamily="@font/pretendard_bold"/>
 
     </LinearLayout>
 
@@ -109,20 +131,23 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginLeft="4dp">
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:textSize="12sp"
-            android:text="총 지출 액 : "/>
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="총 지출 액 : "
+            android:fontFamily="@font/pretendard_bold"/>
 
         <TextView
             android:id="@+id/tv_totalPrice"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:textSize="12sp"
-            android:text="000"/>
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="000"
+            android:fontFamily="@font/pretendard_bold"/>
 
     </LinearLayout>
 
@@ -133,6 +158,8 @@
         android:layout_height="40dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:background="#cccccc"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -146,7 +173,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+
+        android:layout_margin="4dp"/>
 
 
 </LinearLayout>

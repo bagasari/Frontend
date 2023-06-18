@@ -61,48 +61,31 @@ class CreateExpenditureActivity: AppCompatActivity(){
             intent.putExtra("purchaseDate", purchaseDate)
 
             startActivity(intent)
+            setResult(RESULT_OK)
+            finish()
         }
 
         binding.ibTransportation.setOnClickListener{
-            val intent = Intent(this@CreateExpenditureActivity, TransportationFormActivity::class.java)
-            startActivity(intent)
         }
 
     }
 
-    private fun postFoodExpenditure(expenditureFoodDTO: ExpenditureFoodDTO){
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
 
-        // I/O 작업을 비동기적으로 처리하기 위한 코루틴 스코프를 생성
-        val scope = CoroutineScope(Job() + Dispatchers.IO)
-        scope.launch {
-            try {
-                // 로그인 요청
-                // val post: PostAccountBookDTO = PostAccountBookDTO("","","",true,postAccountBook.cityList)
-                val response = retrofit.create(ExpenditureService::class.java).createFoodExpenditure(expenditureFoodDTO)
-                if (response.isSuccessful) {
-                    Log.d("createExpenditure", "지출내역 전송 성공 ${response.body()}")
-                    val isokay = response.body()
-                    Log.d("createExpenditure", isokay!!)
-
-
-                } else {
-                    val errorBody = JSONObject(response.errorBody()?.string() ?: "")
-                    val errorCode = errorBody.optString("code")
-                    Log.d("createExpenditure", "지출내역 전송 실패 $errorBody")
-                    withContext(Dispatchers.Main){
-                        when (errorCode) {
-                            "C001" -> Log.d("createExpenditure", "존재하지 않는 가계부")
-                            "C002" -> Log.d("createExpenditure", "가계부 존재")
-                            else -> {
-                                Log.d("createExpenditure", "모르겠음")
-                            }
-                        }
-                    }
+        if (resultCode == RESULT_OK) {
+            when (requestCode) {
+                FOOD_FORM_REQUEST_CODE -> {
+                    setResult(RESULT_OK)
+                    finish()
                 }
-            } catch (e: Exception) {
-                Log.d("createExpenditure", "API 호출 실패 $e")
             }
         }
+    }
+
+
+    companion object {
+        private const val FOOD_FORM_REQUEST_CODE = 1
     }
 
 }

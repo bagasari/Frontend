@@ -2,20 +2,13 @@ package com.example.frontend.home
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import com.example.frontend.*
 import com.example.frontend.accountBook.AccountBookListFragment
-import com.example.frontend.accountBook.AccountService
 import com.example.frontend.database.AppDatabase
-import com.example.frontend.database.City
-import com.example.frontend.database.Country
 import com.example.frontend.databinding.ActivityHomeBinding
 import com.example.frontend.dto.Destination
-import com.example.frontend.retrofit.RetrofitClient
-import com.example.frontend.utils.Utils
 import kotlinx.coroutines.*
-import org.json.JSONObject
 
 // 홈 Activity- Bottom Navigation + Home Fragment
 open class HomeActivity : AppCompatActivity() {
@@ -109,7 +102,7 @@ open class HomeActivity : AppCompatActivity() {
         destList[1].img = R.drawable.newyork
         destList[2].img = R.drawable.lasvegas
         destList[3].img = R.drawable.boston
-        destList[4].img = R.drawable.sanfrancisco
+        destList[4].img = R.drawable.california
         destList[5].img = R.drawable.texas
         destList[6].img = R.drawable.hawaii
 

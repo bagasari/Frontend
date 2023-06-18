@@ -4,26 +4,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="12dp">
 
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="10dp">
+        android:layout_height="100dp">
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:textSize="25sp"
+            android:textSize="24sp"
             android:text="가계부 목록"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:gravity="center"
+            android:fontFamily="@font/pretendard_bold" />
 
 
         <Button
@@ -31,9 +31,10 @@
             android:layout_width="90dp"
             android:layout_height="40dp"
             android:layout_below="@+id/textView"
-            android:textSize="9dp"
+            android:layout_alignParentRight="true"
+            android:fontFamily="@font/pretendard_bold"
             android:text="가계부 추가"
-            android:layout_alignParentRight="true"/>
+            android:textSize="9dp"/>
 
     </RelativeLayout>
 

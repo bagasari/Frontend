@@ -14,6 +14,7 @@ import com.example.frontend.expenditure.ExpenditureActivity
 import com.example.frontend.R
 import com.example.frontend.accountBook.AccountBook
 import com.example.frontend.accountBook.GetAccountBookDTO
+import com.example.frontend.accountBook.SelectDestinationActivity
 import com.example.frontend.dto.Destination
 
 class HorizontalAccountBookAdapter() : RecyclerView.Adapter<HorizontalAccountBookAdapter.MyViewHolder>(){
@@ -37,9 +38,14 @@ class HorizontalAccountBookAdapter() : RecyclerView.Adapter<HorizontalAccountBoo
 
                 // 클릭한 가계부의 지출내역 페이지로 이동
                 if(curPos == 0){
+
+                    Log.d("HorizontalAccountBookAd", "OnCreateViewHolderB")
                     // 가계부 생성 폼으로 이동
-                    val intent = Intent(parent.context, CreateAccountBook::class.java)
+                    val intent = Intent(parent.context, SelectDestinationActivity::class.java)
+                    intent.putParcelableArrayListExtra("destList", destList as ArrayList<Destination>)
                     parent.context.startActivity(intent)
+
+                    Log.d("HorizontalAccountBookAd", "OnCreateViewHolderA")
                 }else{
                     Toast.makeText(parent.context, "여행이름 : ${getAccountBookDTO.name}", Toast.LENGTH_LONG).show()
                     val intent = Intent(parent.context, ExpenditureActivity::class.java)

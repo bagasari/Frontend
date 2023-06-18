@@ -1,5 +1,6 @@
 package com.example.frontend.home
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -25,9 +26,13 @@ class HomeFragment : Fragment(R.layout.frag_home) {
     private lateinit var currentAccountBookDTO: GetCurrentAccountBookDTO
     private lateinit var accountBookDTO: List<GetAccountBookDTO>
     private lateinit var productsByDate: List<ProductsByDate>
+    private lateinit var destList: List<Destination>
 
     // retrofit 통신
     private val retrofit = RetrofitClient.getInstance()
+
+    private val ACCOUNT_BOOK_LIST_REQUEST_CODE = 1 // 요청 코드 정의
+
 
     var date: String = "0"
 
@@ -37,13 +42,16 @@ class HomeFragment : Fragment(R.layout.frag_home) {
         val fragHomeBinding = FragHomeBinding.bind(view)
         binding = fragHomeBinding
 
+        Log.d("HomeFragment", "OnActivityResult")
+
         val bundle = arguments
-        val destList = bundle?.getParcelableArrayList<Destination>("destList")?.toList()
+        destList = bundle?.getParcelableArrayList<Destination>("destList")!!.toList()
         Log.d("HomeFragment", destList.toString())
         binding.btnHomeSearch.setOnClickListener{
 
             val intent = Intent(context, HomeActivity::class.java).apply{
                 putExtra("FRAG_NUM", "search")
+                putExtra("userId", "still")
             }
             startActivity(intent)
         }
@@ -85,6 +93,23 @@ class HomeFragment : Fragment(R.layout.frag_home) {
         // API 통해 회원의 현재 작성중인 가계부 정보를 받아 currentAccountBookDTO에 저장
         getCurrentAccountBookList(horizontalDateAdapter,expenditureAdaptor, binding)
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Log.d("HomeFragment", "OnActivityResult")
+
+        if (requestCode == ACCOUNT_BOOK_LIST_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            // 갱신 작업 수행
+            val horizontalAccountBookAdapter = binding.rvMyAccountBookHt.adapter as HorizontalAccountBookAdapter
+            // API 통해 회원의 가계부 정보를 받아 accountBookList에 저장
+            getAccountBookList(horizontalAccountBookAdapter, destList)
+
+            val horizontalDateAdapter = binding.rvTravelDate.adapter as HorizontalDateAdapter
+            val expenditureAdapter = binding.rvWritingAccountBook as ExpenditureAdapter
+            getCurrentAccountBookList(horizontalDateAdapter, expenditureAdapter, binding)
+        }
+    }
+
 
     fun settingText(binding: FragHomeBinding){
         binding.tvWritingAccountBook.text = currentAccountBookDTO.name

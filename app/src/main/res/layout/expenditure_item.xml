@@ -30,6 +30,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="구매 품목"
+            android:textSize="16sp"
+            android:fontFamily="@font/pretendard_bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tv_product_price"
             app:layout_constraintHorizontal_bias="0.111"
@@ -41,7 +43,9 @@
             android:id="@+id/tv_product_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard_bold"
             android:text="구매 가격"
+            android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/tv_product_city"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -51,6 +55,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="구매 도시"
+            android:textSize="16sp"
+            android:fontFamily="@font/pretendard_bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 

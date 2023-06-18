@@ -1,5 +1,6 @@
 package com.example.frontend.expenditure
 
+import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
@@ -27,12 +28,15 @@ class ExpenditureActivity: AppCompatActivity() {
     // retrofit 통신
     private val retrofit = RetrofitClient.getInstance()
 
+    private val CREATE_EXPENDITURE_REQUEST_CODE = 1 // 요청 코드 정의
+    private var accountBookId = 0L
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityExpenditureBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val accountBookId = intent.getStringExtra("AccountBookId")!!.toLong()
+        accountBookId = intent.getStringExtra("AccountBookId")!!.toLong()
 
         // 날짜 요소 선택 시 -
         val expenditureAdaptor = ExpenditureAdapter()
@@ -69,11 +73,33 @@ class ExpenditureActivity: AppCompatActivity() {
             val intent = Intent(this@ExpenditureActivity, CreateExpenditureActivity::class.java)
             Log.d("accountBookId", accountBookId.toString())
             intent.putExtra("AccountBookId", accountBookId.toString())
-            startActivity(intent)
+            startActivityForResult(intent, CREATE_EXPENDITURE_REQUEST_CODE) // startActivityForResult()로 액티비티 시작
         }
 
-
     }
+//
+//
+//    override fun onResume() {
+//        super.onResume()
+//
+//        val expenditureAdaptor = binding.rvExpenditure.adapter as ExpenditureAdapter
+//        getExpenditureByAccountBookId(accountBookId, expenditureAdaptor, binding)
+//
+//    }
+
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == CREATE_EXPENDITURE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            // 갱신 작업 수행
+            val expenditureAdaptor = binding.rvExpenditure.adapter as ExpenditureAdapter
+            getExpenditureByAccountBookId(accountBookId, expenditureAdaptor, binding)
+        }
+    }
+
+
 
     fun getExpenditureByAccountBookId(accountBookId: Long, expenditureAdapter: ExpenditureAdapter, binding: ActivityExpenditureBinding){
         // I/O 작업을 비동기적으로 처리하기 위한 코루틴 스코프를 생성

@@ -35,4 +35,7 @@ interface CityDao {
     @Query("SELECT name, img FROM city_table")
     suspend fun getCityNameAndImg(): List<Destination>
 
+    @Query("SELECT name, name_eng FROM city_table")
+    suspend fun getCityNameEngAndKOR(): List<CityNames>
+
 }

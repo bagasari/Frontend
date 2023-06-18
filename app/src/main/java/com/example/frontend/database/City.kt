@@ -22,4 +22,8 @@ data class City(
     @ColumnInfo(name = "country_id") val country_id : Long?
 )
 
+data class CityNames(
+    val name: String,
+    val name_eng: String
+)
 

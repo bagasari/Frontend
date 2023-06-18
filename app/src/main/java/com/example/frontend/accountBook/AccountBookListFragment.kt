@@ -1,5 +1,6 @@
 package com.example.frontend.accountBook
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.frontend.R
 import com.example.frontend.databinding.FragAccountBookBinding
 import com.example.frontend.dto.Destination
+import com.example.frontend.expenditure.ExpenditureAdapter
 import com.example.frontend.retrofit.RetrofitClient
 import com.example.frontend.utils.Utils
 import kotlinx.coroutines.*
@@ -23,6 +25,8 @@ class AccountBookListFragment : Fragment(R.layout.frag_account_book) {
 
     // retrofit 통신
     private val retrofit = RetrofitClient.getInstance()
+
+    private val ACCOUNT_BOOK_LIST_REQUEST_CODE = 1 // 요청 코드 정의
 
     // fragment 바인딩
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,11 +48,24 @@ class AccountBookListFragment : Fragment(R.layout.frag_account_book) {
 
             val intent = Intent(context, SelectDestinationActivity::class.java)
             intent.putParcelableArrayListExtra("destList", bundle?.getParcelableArrayList<Destination>("destList"))
-            startActivity(intent)
+            startActivityForResult(intent, ACCOUNT_BOOK_LIST_REQUEST_CODE) // startActivityForResult()로 액티비티 시작
         }
 
         // API 통해 회원의 가계부 정보를 받아 accountBookList에 저장
         getAccountBookList(accountBookAdapter)
+    }
+
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == ACCOUNT_BOOK_LIST_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            // 갱신 작업 수행
+            val accountBookAdapter = binding.rvMyAccountBookListF.adapter as AccountBookAdapter
+            // API 통해 회원의 가계부 정보를 받아 accountBookList에 저장
+            getAccountBookList(accountBookAdapter)
+        }
     }
 
     fun getAccountBookList(accountBookAdapter: AccountBookAdapter){

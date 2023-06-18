@@ -92,13 +92,9 @@ class CreateAccountBook : AppCompatActivity() {
             val dList: List<String> = destList.toList()
             val postAccountBook = PostAccountBookDTO(bookName, startDate, endDate, isPrivate, dList)
             postNewAccountBook(postAccountBook)
-
-            // 생성 완료 시 가계부 목록으로 이동
-            val intent = Intent(this, HomeActivity::class.java).apply {
-                putExtra("FRAG_NUM", "accountBook")
-                putExtra("userId", "still")
-            }
-            startActivity(intent)
+            setResult(RESULT_OK)
+            finish()
+//
         }
     }
 
