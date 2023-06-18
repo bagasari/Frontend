@@ -3,6 +3,7 @@ package com.example.frontend.home
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -96,6 +97,17 @@ class HomeFragment : Fragment(R.layout.frag_home) {
         getCurrentAccountBookList(horizontalDateAdapter,expenditureAdaptor, binding)
     }
 
+    override fun onResume(){
+        super.onResume()
+
+        val handler = Handler()
+        handler.postDelayed({
+            val horizontalAccountBookAdapter = binding.rvMyAccountBookHt.adapter as HorizontalAccountBookAdapter
+            // API 통해 회원의 가계부 정보를 받아 accountBookList에 저장
+            getAccountBookList(horizontalAccountBookAdapter, destList)
+        }, 100)
+
+    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         Log.d("HomeFragment", "OnActivityResult")

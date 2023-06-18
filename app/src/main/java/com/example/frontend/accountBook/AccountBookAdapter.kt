@@ -16,10 +16,11 @@ import de.hdodenhof.circleimageview.CircleImageView
 import java.text.SimpleDateFormat
 import kotlin.collections.ArrayList
 
-class AccountBookAdapter() : RecyclerView.Adapter<AccountBookAdapter.CustomViewHolder>(){
+class AccountBookAdapter(string: String) : RecyclerView.Adapter<AccountBookAdapter.CustomViewHolder>(){
 
     private var accountBookList: MutableList<GetAccountBookDTO> = mutableListOf()
     private var destList: MutableList<Destination> = mutableListOf()
+    private var string = string
 
     // ViewHolder가 생성될 때
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
@@ -34,7 +35,7 @@ class AccountBookAdapter() : RecyclerView.Adapter<AccountBookAdapter.CustomViewH
                 //Intent 이동 하여 해당 가계부의 지출 내역 보여주기
                 //Toast.makeText(parent.context, "여행이름 : ${accountBook.name}", Toast.LENGTH_LONG).show()
                 val intent = Intent(parent.context, ExpenditureActivity::class.java)
-                Log.d("AccountBookAdapter", accountBook.id.toString())
+                Log.d("trace", "AccountBookAdapter : onCreatedViewHolder")
                 intent.putExtra("AccountBookId", accountBook.id.toString())
                 parent.context.startActivity(intent)
             }
@@ -48,6 +49,7 @@ class AccountBookAdapter() : RecyclerView.Adapter<AccountBookAdapter.CustomViewH
         val city = accountBookList.get(position).city
         val dest: Destination? = destList?.find{ it.name == city}
 
+        Log.d("trace", "AccountBookAdapter : onBindViewHolder - " + string)
         if (dest != null) {
             holder.img.setImageResource(dest.img)
         }
@@ -67,13 +69,17 @@ class AccountBookAdapter() : RecyclerView.Adapter<AccountBookAdapter.CustomViewH
 //        notifyDataSetChanged()
 //    }
 
-    fun setData(aList: ArrayList<GetAccountBookDTO>, dList: ArrayList<Destination>){
+    fun setData(aList: ArrayList<GetAccountBookDTO>, dList: ArrayList<Destination>, str: String){
+
         accountBookList.clear()
         accountBookList.addAll(aList)
         destList.clear()
         destList.addAll(dList)
+        string = str
+        Log.d("trace", "AccountBookAdapter : setData - " + string)
         notifyDataSetChanged()
     }
+
     // 잡아주는 역할
     class CustomViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val img = itemView.findViewById<CircleImageView>(R.id.iv_account_book_city) // 가계부 이미지

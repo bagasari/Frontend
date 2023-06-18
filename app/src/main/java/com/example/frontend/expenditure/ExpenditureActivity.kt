@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -83,9 +84,12 @@ class ExpenditureActivity: AppCompatActivity() {
         super.onResume()
 
         Log.d("ExpenditureActivity", "onResume")
-
-        val expenditureAdaptor = binding.rvExpenditure.adapter as ExpenditureAdapter
-        getExpenditureByAccountBookId(accountBookId, expenditureAdaptor, binding)
+        val handler = Handler()
+        handler.postDelayed({
+            // 딜레이 이후 실행할 코드 작성
+            val expenditureAdapter = binding.rvExpenditure.adapter as ExpenditureAdapter
+            getExpenditureByAccountBookId(accountBookId, expenditureAdapter, binding)
+        }, 100)
 
     }
 

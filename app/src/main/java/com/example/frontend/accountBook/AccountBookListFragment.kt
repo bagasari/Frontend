@@ -3,6 +3,7 @@ package com.example.frontend.accountBook
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -39,48 +40,52 @@ class AccountBookListFragment : Fragment(R.layout.frag_account_book) {
 
         val bundle = arguments
         destList = bundle?.getParcelableArrayList<Destination>("destList")!!.toList()
-        Log.d("test", destList.toString())
 
-
-        val accountBookAdapter = AccountBookAdapter() // 빈 리스트로 초기화
-
+        Log.d("trace", "AccountBookListFragment : onViewCreated")
+        val accountBookAdapter = AccountBookAdapter("onViewCreated") // 빈 리스트로 초기화
         binding.rvMyAccountBookListF.layoutManager = LinearLayoutManager(context)
         binding.rvMyAccountBookListF.adapter = accountBookAdapter
 
         binding.btnCreateAccountBook.setOnClickListener {
 
+            Log.d("trace", "AccountBookListFragment : binding.btnCreateAccountBook.setOnClickListener")
             val intent = Intent(context, SelectDestinationActivity::class.java)
             intent.putParcelableArrayListExtra("destList", bundle?.getParcelableArrayList<Destination>("destList"))
             startActivityForResult(intent, ACCOUNT_BOOK_LIST_REQUEST_CODE) // startActivityForResult()로 액티비티 시작
         }
 
         // API 통해 회원의 가계부 정보를 받아 accountBookList에 저장
-        getAccountBookList(accountBookAdapter)
+        getAccountBookList(accountBookAdapter, "onViewCreated")
     }
 
 
 
     override fun onResume(){
         super.onResume()
-        Log.d("AccountBookListFragment", "onResume")
+        Log.d("trace", "AccountBookListFragment : onResume")
         // 갱신 작업 수행
-        val accountBookAdapter = binding.rvMyAccountBookListF.adapter as AccountBookAdapter
-        // API 통해 회원의 가계부 정보를 받아 accountBookList에 저장
-        getAccountBookList(accountBookAdapter)
 
-    }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == ACCOUNT_BOOK_LIST_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            // 갱신 작업 수행
+        val handler = Handler()
+        handler.postDelayed({
             val accountBookAdapter = binding.rvMyAccountBookListF.adapter as AccountBookAdapter
             // API 통해 회원의 가계부 정보를 받아 accountBookList에 저장
-            getAccountBookList(accountBookAdapter)
-        }
-    }
+            getAccountBookList(accountBookAdapter, "onResume")
 
-    fun getAccountBookList(accountBookAdapter: AccountBookAdapter){
+        }, 100)
+
+    }
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//
+//        if (requestCode == ACCOUNT_BOOK_LIST_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+//            // 갱신 작업 수행
+//            val accountBookAdapter = binding.rvMyAccountBookListF.adapter as AccountBookAdapter
+//            // API 통해 회원의 가계부 정보를 받아 accountBookList에 저장
+//            getAccountBookList(accountBookAdapter)
+//        }
+//    }
+
+    fun getAccountBookList(accountBookAdapter: AccountBookAdapter, string: String){
         // I/O 작업을 비동기적으로 처리하기 위한 코루틴 스코프를 생성
         val scope = CoroutineScope(Job() + Dispatchers.IO)
         scope.launch {
@@ -94,8 +99,10 @@ class AccountBookListFragment : Fragment(R.layout.frag_account_book) {
                     withContext(Dispatchers.Main) {
                         // 가계부 정보를 얻은 후에 Adapter에 데이터를 설정
 
-                        accountBookAdapter.setData(accountBookDTO.toMutableList() as ArrayList<GetAccountBookDTO>, destList.toMutableList() as ArrayList<Destination>)
-                        Log.d("ACB", accountBookAdapter.toString())
+                        Log.d("trace", accountBookDTO.toString())
+                        Log.d("trace", string + " : before setData")
+                        accountBookAdapter.setData(accountBookDTO.toMutableList() as ArrayList<GetAccountBookDTO>, destList.toMutableList() as ArrayList<Destination>, string)
+                        Log.d("trace", string + " : after setData")
                     }
 
                 } else {

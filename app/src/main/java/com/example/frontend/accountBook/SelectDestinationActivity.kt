@@ -28,13 +28,11 @@ class SelectDestinationActivity : AppCompatActivity() {
     private lateinit var destListAdapter: DestListAdapter
     private lateinit var create_btn: Button
 
-    private var db: AppDatabase? = null
-    private lateinit var cityList: List<Destination>
-    private lateinit var countryList: List<Destination>
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Log.d("trace", "SelectDestinationActivity : onCreate")
 
         // DestinationSelectList 바인딩
         binding = ActivityDestinationSelectListBinding.inflate(layoutInflater)
@@ -79,13 +77,21 @@ class SelectDestinationActivity : AppCompatActivity() {
 
         create_btn.setOnClickListener{
 
+            Log.d("trace", "SelectDestinationActivity : setOnClickListener")
             // 선택한 여행지 전송
             val selectedDestList : ArrayList<String> = destListAdapter.selectDestName()
-            val intent = Intent(this, CreateAccountBook::class.java)
-            intent.putExtra("selectedDestList", selectedDestList)
-            startActivity(intent)
-            setResult(RESULT_OK)
-            finish()
+            if(selectedDestList.isEmpty()){
+                Toast.makeText(this, "도시를 선택해주세요", Toast.LENGTH_LONG).show()
+            }else{
+                val intent = Intent(this, CreateAccountBook::class.java)
+                intent.putExtra("selectedDestList", selectedDestList)
+                startActivity(intent)
+                setResult(RESULT_OK)
+                Log.d("trace", "SelectDestinationActivity : before finish()")
+                finish()
+
+            }
+
         }
 
 

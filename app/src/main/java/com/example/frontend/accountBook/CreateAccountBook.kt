@@ -31,13 +31,14 @@ class CreateAccountBook : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         // activity_make_account_book.xml 바인딩
         binding = ActivityMakeAccountBookBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // 이전 여행지 선택 페이지에서 여행지 리스트 받아와야 함
-
+        Log.d("trace", "CreateAccountBook : onCreate")
 
         // 시작 날짜 입력 받기 DatePicker
         binding.startDate.setOnClickListener{
@@ -92,6 +93,8 @@ class CreateAccountBook : AppCompatActivity() {
             val postAccountBook = PostAccountBookDTO(bookName, startDate, endDate, isPrivate, dList)
             postNewAccountBook(postAccountBook)
             setResult(RESULT_OK)
+
+            Log.d("trace", "CreateAccountBook : Before finish()")
             finish()
 //
         }

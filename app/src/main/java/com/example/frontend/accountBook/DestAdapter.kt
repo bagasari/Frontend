@@ -49,7 +49,6 @@ class DestAdapter (var destList: List<Destination>, var setItem: String, var con
                     val destList: Destination = destList.get(curPos)
 
                     //Intent 이동 하여 해당 가계부의 지출 내역 보여주기
-                    // Toast.makeText(parent.context, "여행이름 : ${destList.name}", Toast.LENGTH_LONG).show()
                     val intent = Intent(context, ProductActivity::class.java)
                     intent.putExtra("DEST_NAME", destList.name)
                     context.startActivity(intent)
