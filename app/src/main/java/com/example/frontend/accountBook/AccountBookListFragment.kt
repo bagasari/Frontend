@@ -11,6 +11,7 @@ import com.example.frontend.R
 import com.example.frontend.databinding.FragAccountBookBinding
 import com.example.frontend.dto.Destination
 import com.example.frontend.expenditure.ExpenditureAdapter
+import com.example.frontend.home.HorizontalAccountBookAdapter
 import com.example.frontend.retrofit.RetrofitClient
 import com.example.frontend.utils.Utils
 import kotlinx.coroutines.*
@@ -22,6 +23,7 @@ class AccountBookListFragment : Fragment(R.layout.frag_account_book) {
 
     private lateinit var binding: FragAccountBookBinding
     private lateinit var accountBookDTO: List<GetAccountBookDTO>
+    private lateinit var destList: List<Destination>
 
     // retrofit 통신
     private val retrofit = RetrofitClient.getInstance()
@@ -36,10 +38,11 @@ class AccountBookListFragment : Fragment(R.layout.frag_account_book) {
 
 
         val bundle = arguments
-        val destList = bundle?.getParcelableArrayList<Destination>("destList")?.toList()
+        destList = bundle?.getParcelableArrayList<Destination>("destList")!!.toList()
         Log.d("test", destList.toString())
 
-        val accountBookAdapter = AccountBookAdapter(emptyList(), destList) // 빈 리스트로 초기화
+
+        val accountBookAdapter = AccountBookAdapter() // 빈 리스트로 초기화
 
         binding.rvMyAccountBookListF.layoutManager = LinearLayoutManager(context)
         binding.rvMyAccountBookListF.adapter = accountBookAdapter
@@ -57,6 +60,15 @@ class AccountBookListFragment : Fragment(R.layout.frag_account_book) {
 
 
 
+    override fun onResume(){
+        super.onResume()
+        Log.d("AccountBookListFragment", "onResume")
+        // 갱신 작업 수행
+        val accountBookAdapter = binding.rvMyAccountBookListF.adapter as AccountBookAdapter
+        // API 통해 회원의 가계부 정보를 받아 accountBookList에 저장
+        getAccountBookList(accountBookAdapter)
+
+    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -78,9 +90,11 @@ class AccountBookListFragment : Fragment(R.layout.frag_account_book) {
                 if (response.isSuccessful) {
                     Log.d("ACB", "가계부 리스트 통신 성공 ${response.body()}")
                     accountBookDTO = response.body()!!
+
                     withContext(Dispatchers.Main) {
                         // 가계부 정보를 얻은 후에 Adapter에 데이터를 설정
-                        accountBookAdapter.updateData(accountBookDTO)
+
+                        accountBookAdapter.setData(accountBookDTO.toMutableList() as ArrayList<GetAccountBookDTO>, destList.toMutableList() as ArrayList<Destination>)
                         Log.d("ACB", accountBookAdapter.toString())
                     }
 
