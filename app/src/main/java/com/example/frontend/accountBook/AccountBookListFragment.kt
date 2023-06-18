@@ -57,6 +57,14 @@ class AccountBookListFragment : Fragment(R.layout.frag_account_book) {
 
 
 
+    override fun onResume(){
+        super.onResume()
+        // 갱신 작업 수행
+        val accountBookAdapter = binding.rvMyAccountBookListF.adapter as AccountBookAdapter
+        // API 통해 회원의 가계부 정보를 받아 accountBookList에 저장
+        getAccountBookList(accountBookAdapter)
+
+    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
