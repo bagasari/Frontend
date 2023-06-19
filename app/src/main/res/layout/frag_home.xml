@@ -39,7 +39,7 @@
         android:id="@+id/rv_my_account_book_ht"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="200dp"
+        android:minHeight="140dp"
         android:layout_marginTop="4dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"

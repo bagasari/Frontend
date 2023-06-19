@@ -105,24 +105,29 @@ class HomeFragment : Fragment(R.layout.frag_home) {
             val horizontalAccountBookAdapter = binding.rvMyAccountBookHt.adapter as HorizontalAccountBookAdapter
             // API 통해 회원의 가계부 정보를 받아 accountBookList에 저장
             getAccountBookList(horizontalAccountBookAdapter, destList)
+
+            val horizontalDateAdapter = binding.rvTravelDate.adapter as HorizontalDateAdapter
+            val expenditureAdapter = binding.rvWritingAccountBook.adapter as ExpenditureAdapter
+            getCurrentAccountBookList(horizontalDateAdapter, expenditureAdapter, binding)
+
         }, 100)
 
     }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        Log.d("HomeFragment", "OnActivityResult")
-
-        if (requestCode == ACCOUNT_BOOK_LIST_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            // 갱신 작업 수행
-            val horizontalAccountBookAdapter = binding.rvMyAccountBookHt.adapter as HorizontalAccountBookAdapter
-            // API 통해 회원의 가계부 정보를 받아 accountBookList에 저장
-            getAccountBookList(horizontalAccountBookAdapter, destList)
-
-            val horizontalDateAdapter = binding.rvTravelDate.adapter as HorizontalDateAdapter
-            val expenditureAdapter = binding.rvWritingAccountBook as ExpenditureAdapter
-            getCurrentAccountBookList(horizontalDateAdapter, expenditureAdapter, binding)
-        }
-    }
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        Log.d("HomeFragment", "OnActivityResult")
+//
+//        if (requestCode == ACCOUNT_BOOK_LIST_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+//            // 갱신 작업 수행
+//            val horizontalAccountBookAdapter = binding.rvMyAccountBookHt.adapter as HorizontalAccountBookAdapter
+//            // API 통해 회원의 가계부 정보를 받아 accountBookList에 저장
+//            getAccountBookList(horizontalAccountBookAdapter, destList)
+//
+//            val horizontalDateAdapter = binding.rvTravelDate.adapter as HorizontalDateAdapter
+//            val expenditureAdapter = binding.rvWritingAccountBook as ExpenditureAdapter
+//            getCurrentAccountBookList(horizontalDateAdapter, expenditureAdapter, binding)
+//        }
+//    }
 
 
     fun settingText(binding: FragHomeBinding){
